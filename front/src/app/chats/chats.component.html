@@ -1,0 +1,174 @@
+<div class="b-margin-1 stdDialogInput">
+  <button mat-stroked-button class="mat-primary"
+          *ngIf="selectedClient && selectedLead && chatItems"
+          (click)="openARDialog(selectedClient, selectedLead, chatItems, true, false)">See Approval Requests for {{selectedClient.name}}'s prospect</button>
+</div>
+
+<div class="b-margin-1 stdDialogInput w100" *ngIf="chatsWithPending">
+  <mat-accordion matBadge="{{chatsWithPending.length}}" matBadgeColor="warn" matBadgePosition="after">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Messages pending approval
+        </mat-panel-title>
+        <mat-panel-description>
+          There {{chatsWithPending.length === 1 ? 'is ' + chatsWithPending.length + ' chat ': 'are ' + chatsWithPending.length + ' chats'}} for review
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-expansion-panel *ngFor="let chat of chatsWithPending">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{chat.client.name}} <mat-icon class="sm" color="primary">message</mat-icon> {{chat.lead.firstName}} {{chat.lead.lastName}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="expansion-pane-chat-container">
+          <app-chat-window *ngIf="chat.client && chat.lead"
+                           [selectedClient]="chat.client"
+                           [selectedLead]="chat.lead"
+                           [getARs]="true"
+                           [chatPending]="chat"
+                           [loadControls]="false"
+                           class="chat-window stdDialogInput w100"></app-chat-window>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<mat-form-field class="stdDialogInput">
+  <input type="text"
+         placeholder="Client" aria-label="Client"
+         matInput [formControl]="client_id" [matAutocomplete]="auto">
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getLeads($event.option.value)' [displayWith]="displayClientFn">
+    <mat-option *ngFor="let client of clients" [value]="client">
+      <span>{{ client.name }}</span>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field class="stdDialogInput">
+  <input type="text"
+         placeholder="Lead" aria-label="Lead"
+         matInput [formControl]="lead_id" [matAutocomplete]="autoLeads">
+
+  <mat-autocomplete #autoLeads="matAutocomplete"
+                    (optionSelected)="getClients($event.option.value)" [displayWith]="displayLeadFn">
+    <mat-option *ngFor="let lead of leads" [value]="lead">
+      <span>{{ lead.firstName }} {{ lead.lastName }} <span class="greytext">{{lead.myTags}}</span></span>
+
+    </mat-option>
+
+  </mat-autocomplete>
+</mat-form-field>
+
+
+<app-chat-window *ngIf="selectedClient && selectedLead"
+  [selectedClient]="selectedClient"
+  [selectedLead]="selectedLead"
+  [chatItems]="chatItems"
+  [loadControls]="true"
+  class="chat-window stdDialogInput w100"></app-chat-window>
+
+<!--<div class="chat-form stdDialogInput w100" *ngIf="selectedClient && selectedLead" id="chat-form">-->
+<!--  <mat-form-field>-->
+<!--  <textarea name="text-msg"-->
+<!--            id="text-msg"-->
+<!--            #textMessageBox-->
+<!--            rows="3"-->
+<!--            class="text-msg w100 vertical-margins"-->
+<!--            placeholder="New Message/Response"-->
+<!--            matInput-->
+<!--            [formControl]="textMsgCtrl"></textarea>-->
+<!--  </mat-form-field>-->
+
+<!--  <div class="chat-form-controls" id="chat-form-controls">-->
+<!--    <div class="flex-full-controls">-->
+<!--      <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Message')">Save as Message</button>-->
+<!--      <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Response')">Save as Response</button>-->
+<!--    </div>-->
+<!--    <div class="w100 single-control centered vertical-margins">-->
+<!--      <button mat-stroked-button class="mat-primary" (click)="saveTextMsg('approvalRequest')">Submit Message for Apporval</button>-->
+<!--    </div>-->
+
+<!--    <div *ngIf="showChatItemsAccordion" class="vertical-margins">-->
+<!--      <mat-accordion>-->
+<!--        <mat-expansion-panel>-->
+<!--          <mat-expansion-panel-header>-->
+<!--            <mat-panel-title>-->
+<!--              Message approval requests-->
+<!--            </mat-panel-title>-->
+<!--            <mat-panel-description>-->
+<!--              There are {{approvedChatItems.length}} approved and {{rejectedChatItems.length}} rejected messages-->
+<!--            </mat-panel-description>-->
+<!--          </mat-expansion-panel-header>-->
+
+<!--          <mat-expansion-panel>-->
+<!--            <mat-expansion-panel-header>-->
+<!--              <mat-panel-title>Approved <mat-icon class="sm" color="primary">check_circle</mat-icon></mat-panel-title>-->
+<!--            </mat-expansion-panel-header>-->
+<!--            <mat-panel-description>{{approvedChatItems.length}} messages approved</mat-panel-description>-->
+<!--            <div *ngFor="let approved of approvedChatItems" class="approved-message-client">-->
+<!--              {{approved.message.text}}-->
+<!--              <button mat-stroked-button (click)="setMessageValue(approved.message.text)">To message box</button>-->
+<!--            </div>-->
+<!--          </mat-expansion-panel>-->
+
+<!--          <mat-expansion-panel>-->
+<!--            <mat-expansion-panel-header>-->
+<!--              <mat-panel-title>Rejected <mat-icon class="sm" color="primary">close</mat-icon></mat-panel-title>-->
+<!--            </mat-expansion-panel-header>-->
+<!--            <mat-panel-description>{{rejectedChatItems.length}} messages rejected</mat-panel-description>-->
+<!--            <div *ngFor="let rejected of rejectedChatItems" class="rejected-message-client">-->
+<!--              {{rejected.message.text}}-->
+<!--            </div>-->
+<!--          </mat-expansion-panel>-->
+
+<!--        </mat-expansion-panel>-->
+<!--      </mat-accordion>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="chat-window stdDialogInput w100" *ngIf="selectedClient && selectedLead" id="chat-window">-->
+<!--  <div class="chat-descriptor">-->
+<!--    <div>Chat with <span class="keyword">{{selectedLead.firstName}} {{selectedLead.lastName}}</span></div>-->
+<!--    <div>for client <span class="keyword">{{selectedClient.name}}</span></div>-->
+<!--  </div>-->
+
+<!--  <div class="chatRetrospect">-->
+<!--    <div *ngFor="let chat of chatItems" class="contentContainer">-->
+<!--      <div *ngIf="chat.response || (chat.message && getMessageApproved(chat.message))" class="content {{getChatItemRole(chat)}}">-->
+<!--        <div>Role: {{getChatItemRole(chat)}}</div>-->
+<!--        <div>Text: {{getChatItemText(chat)}}</div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="chat-form" id="chat-form">-->
+<!--  <mat-form-field>-->
+<!--  <textarea name="text-msg"-->
+<!--            id="text-msg"-->
+<!--            rows="3"-->
+<!--            class="text-msg w100 vertical-margins"-->
+<!--            placeholder="New Message/Response"-->
+<!--            matInput-->
+<!--            [formControl]="textMsgCtrl"></textarea>-->
+<!--    </mat-form-field>-->
+
+<!--    <div class="chat-form-controls" id="chat-form-controls">-->
+<!--      <div class="flex-full-controls">-->
+<!--        <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Message')">Save as Message</button>-->
+<!--        <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Response')">Save as Response</button>-->
+<!--      </div>-->
+<!--      <div class="vertical-margins w100 single-control centered">-->
+<!--        <button mat-stroked-button class="mat-primary" (click)="saveTextMsg('approvalRequest')">Submit Message for Apporval</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--</div>-->
+
+

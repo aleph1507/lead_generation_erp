@@ -1,0 +1,103 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Lato, Roboto, "Helvetica Neue", sans-serif;
+}
+.tb-spacer-max {
+  flex: 1 1 auto;
+}
+.mid-spacer {
+  position: relative;
+  left: 39%;
+}
+.sidenav-container {
+  height: 100%;
+}
+.sidenav1 {
+  width: 25%;
+  display: flex;
+  padding: 0.5em;
+}
+.sidenav1 button {
+  width: 99%;
+  margin-top: 0.4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.sidenav1 > div {
+  display: flex;
+  flex-direction: column;
+}
+.icon-control {
+  cursor: pointer;
+}
+.stdDialogInput {
+  width: 90%;
+  margin: auto;
+  display: block;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.stdDialogInput > mat-form-field {
+  width: 100%;
+}
+.stdDialogActions {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.right-align {
+  text-align: right;
+}
+.notif-success {
+  color: #155724 !important;
+  background-color: #d4edda !important;
+  border-color: #c3e6cb !important;
+}
+.notif-success .mat-simple-snackbar-action {
+  color: #155724 !important;
+}
+.notif-danger {
+  color: white !important;
+  background-color: darkred !important;
+  border-color: red !important;
+}
+.padded-horizontal {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+.main1 {
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 2%;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.mat-elevation-z8 {
+  overflow-x: auto;
+}
+.mat-table {
+  min-width: 450px;
+}
+.wide-mat-cell-table .mat-row {
+  height: auto;
+}
+.wide-mat-cell-table .mat-cell {
+  padding: 0 0.5rem;
+}
+.wide-mat-cell-table .mat-header-cell {
+  padding: 1rem;
+}
+mat-icon.sm {
+  font-size: 0.8rem;
+}
+th.mat-sort-header-sorted {
+  color: black;
+}
+/*# sourceMappingURL=styles.css.map */

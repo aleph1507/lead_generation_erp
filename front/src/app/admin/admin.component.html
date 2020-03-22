@@ -1,0 +1,31 @@
+<mat-tab-group (selectedTabChange)="nullOption()">
+  <mat-tab label="Clients">
+    <div class="admin-controls">
+<!--      <button mat-raised-button color="primary">+ New Client</button>-->
+      <button mat-raised-button (click)="clientLive()" color="primary">Live Clients</button>
+      <button mat-raised-button (click)="clientsTrashed()" color="primary">Deleted Clients</button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Prospects">
+    <div class="admin-controls">
+      <button mat-raised-button (click)="prospectsLive()" color="primary">Live Prospects</button>
+      <button mat-raised-button (click)="prospectsTrashed()" color="primary">Deleted Prospects</button>
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Settings"> Settings1 </mat-tab>
+</mat-tab-group>
+
+<div id="output" class="output" #output *ngIf="option">
+  <div id="output-title" class="output-title">
+    <h1 *ngIf="option == options.PROSPECTSLIVE">Live Prospects</h1>
+    <h1 *ngIf="option == options.PROSPECTSTRASHED">Trashed Prospects</h1>
+    <h1 *ngIf="option == options.CLIENTSLIVE">Live Clients</h1>
+    <h1 *ngIf="option == options.CLIENTSTRASHED">Trashed Clients</h1>
+  </div>
+    <app-leads [trashed]="trashedProspects" *ngIf="option == options.PROSPECTSLIVE"></app-leads>
+    <app-leads [trashed]="trashedProspects" *ngIf="option == options.PROSPECTSTRASHED"></app-leads>
+
+    <app-clients [trashed]="trashedClients" *ngIf="option == options.CLIENTSLIVE"></app-clients>
+    <app-clients [trashed]="trashedClients" *ngIf="option == options.CLIENTSTRASHED"></app-clients>
+</div>

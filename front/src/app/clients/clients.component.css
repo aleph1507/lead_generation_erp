@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+  margin-bottom: 5%;
+}
+.link-span {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+.hoverable-row {
+  border: 3px outset blue;
+}
+/*# sourceMappingURL=clients.component.css.map */

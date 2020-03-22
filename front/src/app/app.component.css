@@ -1,0 +1,13 @@
+hr.sidenav-separator {
+  width: 90%;
+  border: 1px solid #888888;
+  border-radius: 1em;
+}
+.top-margin-0 {
+  margin-top: 0;
+}
+.hpadded-2 {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+/*# sourceMappingURL=app.component.css.map */

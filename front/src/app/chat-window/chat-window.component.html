@@ -1,0 +1,106 @@
+<div class="chat-window w100" id="chat-window">
+  <div class="chat-descriptor">
+    <div>Chat with <span class="keyword">{{selectedLead.firstName}} {{selectedLead.lastName}}</span></div>
+    <div>for client <span class="keyword">{{selectedClient.name}}</span></div>
+  </div>
+
+  <div *ngIf="showChatItemsAccordion" class="vertical-margins scrollable mat-elevation-z8">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Message approval requests
+          </mat-panel-title>
+          <mat-panel-description>
+            There are {{approvedChatItems.length}} approved and {{rejectedChatItems.length}} rejected messages
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-expansion-panel class="mid-vertical-expansion scrollable">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Approved <mat-icon class="sm" color="primary">check_circle</mat-icon></mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-description>{{approvedChatItems.length}} messages approved</mat-panel-description>
+          <div *ngFor="let approved of approvedChatItems" class="approved-message-client">
+            {{approved.message.text}}
+            <button mat-stroked-button (click)="setMessageValue(approved.message.text)">To message box</button>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="mid-vertical-expansion scrollable">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Rejected <mat-icon class="sm" color="primary">close</mat-icon></mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-description>{{rejectedChatItems.length}} messages rejected</mat-panel-description>
+          <div *ngFor="let rejected of rejectedChatItems" class="rejected-message-client">
+            {{rejected.message.text}}
+          </div>
+        </mat-expansion-panel>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div #cc class="chatRetrospect">
+    <div *ngFor="let chat of chatItems" class="contentContainer">
+      <div *ngIf="chat.response || (chat.message && getMessageApproved(chat.message))" class="content {{getChatItemRole(chat)}}">
+        <div class="author">{{getChatItemRole(chat) === 'message' ? 'Me' : (selectedLead.firstName ? selectedLead.firstName : selectedLead.lastName)}}</div>
+        <div class="msg-text">{{getChatItemText(chat)}}</div>
+      </div>
+    </div>
+  </div>
+
+<!--  <div class="request pending" *ngFor="let request of requests || []">-->
+  <div class="request pending" *ngIf="chatPending && getARs"
+       [ngClass]="{'request-approved': chatPending.message.approval_request === 'APPROVED',
+                    'request-declined': chatPending.message.approval_request === 'DECLINED'}">
+    <div class="request-pending-text">
+      {{chatPending.message.text}}
+    </div>
+    <div class="request-pending-controls">
+      <button mat-raised-button (click)="approveRequest($event, chatPending.message)">Approve Request</button>
+      <button mat-raised-button (click)="declineRequest($event, chatPending.message)">Decline Request</button>
+    </div>
+    <!--    <button mat-raised-button (click)="alterRequest(request)">Alter Request</button>-->
+  </div>
+
+  <div *ngIf="chatsWithPending && requests" >
+    <div class="request pending" *ngFor="let request of requests || []"
+         [ngClass]="{'request-approved': request.approval_request === 'APPROVED',
+                    'request-declined': request.approval_request === 'DECLINED'}">
+      <div class="request-pending-text">
+        {{request.text}}
+      </div>
+      <div class="request-pending-controls">
+        <button mat-raised-button (click)="approveRequest($event, request)">Approve Request</button>
+        <button mat-raised-button (click)="declineRequest($event, request)">Decline Request</button>
+      </div>
+    </div>
+  </div>
+
+  <div   *ngIf="loadControls" class="centered">
+    <div class="chat-form stdDialogInput w100" *ngIf="selectedClient && selectedLead" id="chat-form">
+      <mat-form-field>
+          <textarea name="text-msg"
+            id="text-msg"
+            #textMessageBox
+            rows="3"
+            class="text-msg w100 vertical-margins"
+            placeholder="New Message/Response"
+            matInput
+            [formControl]="textMsgCtrl"></textarea>
+      </mat-form-field>
+
+      <div class="chat-form-controls" id="chat-form-controls">
+        <div class="flex-full-controls">
+          <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Message')">Save as Message</button>
+          <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Response')">Save as Response</button>
+        </div>
+        <div class="w100 single-control centered vertical-margins">
+          <button mat-stroked-button class="mat-primary" (click)="saveTextMsg('approvalRequest')">Submit Message for Apporval</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

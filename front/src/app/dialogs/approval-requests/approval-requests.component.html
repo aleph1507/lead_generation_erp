@@ -1,0 +1,22 @@
+
+
+<div class="single-chat" id="single-chat">
+  <div style="margin: auto;">
+    <app-chat-window *ngIf="selectedClient && selectedLead"
+                     [selectedClient]="selectedClient"
+                     [selectedLead]="selectedLead"
+                     [chatItems]="chatItems"
+                     [chatsWithPending]="chatsWithPending"
+                     [getARs]="getAR"
+                     [loadControls]="loadControls"
+                     ></app-chat-window>
+  </div>
+
+<!--  <div class="request pending" *ngFor="let request of requests">-->
+<!--    {{request.text}}-->
+<!--    <button mat-raised-button (click)="approveRequest($event, request)">Approve Request</button>-->
+<!--    <button mat-raised-button (click)="declineRequest(request)">Decline Request</button>-->
+<!--&lt;!&ndash;    <button mat-raised-button (click)="alterRequest(request)">Alter Request</button>&ndash;&gt;-->
+<!--  </div>-->
+</div>
+

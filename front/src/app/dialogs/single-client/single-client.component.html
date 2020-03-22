@@ -1,0 +1,30 @@
+
+<h2 mat-dialog-title>{{client.name}}</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="clientForm" #cForm (ngSubmit)="save()">
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Client's Name"
+             formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+    <textarea matInput
+              placeholder="Description"
+              formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <ngx-mat-file-input formControlName="csv_file" placeholder="Prospects CSV" [accept]="'.csv'"></ngx-mat-file-input>
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="stdDialogActions">
+  <button class="mat-raised-button" (click)="close()">Close</button>
+  <button class="mat-raised-button mat-primary" [disabled]="!clientForm.valid" (click)="save()">Save</button>
+</mat-dialog-actions>

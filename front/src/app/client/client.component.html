@@ -1,0 +1,101 @@
+<h2 *ngIf="clientForm">{{client.name}}</h2>
+
+<div *ngIf="clientForm">
+
+  <form [formGroup]="clientForm" #cForm (ngSubmit)="save()">
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Client's Name"
+             formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+    <textarea matInput
+              placeholder="Description"
+              formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <ngx-mat-file-input formControlName="csv_file" placeholder="Prospects CSV" [accept]="'.csv'"></ngx-mat-file-input>
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+  </form>
+
+  <button class="mat-raised-button" (click)="backToClients()">&laquo; Back to clients</button>
+  <button class="mat-raised-button mat-primary" [disabled]="!clientForm.valid" (click)="save()">Save</button>
+
+  <mat-accordion *ngIf="leadsBD">
+    <mat-expansion-panel *ngFor="let lbd of leadsBD | keyvalue:asInOrder">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{lbd.key}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{lbd.value.length}} prospects added
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <table>
+        <thead>
+          <th class="sm-column">Messages</th>
+          <th class="sm-column">Edit</th>
+          <th class="md-column">Name</th>
+          <th class="md-column">Company</th>
+          <th class="sm-column">Status</th>
+          <th class="sm-column">Delete</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prospect of lbd.value">
+            <td class="sm-column link">
+              <mat-icon matListIcon
+                        (click)="openARDialog(client, prospect, null, false, true)"
+                        class="icon-control"
+              >chat_bubble_outline</mat-icon>
+            </td>
+            <td class="sm-column link">
+              <mat-icon matListIcon
+                        (click)="openEditLeadDialog(prospect)"
+                        class="icon-control"
+              >border_color</mat-icon>
+            </td>
+            <td class="md-column">
+              {{prospect.firstName}} {{prospect.lastName}}
+            </td>
+            <td class="md-column">
+              {{prospect.company}}
+            </td>
+            <td class="sm-column">
+              {{prospect.status}}
+            </td>
+            <td class="sm-column">
+              <mat-icon matListIcon
+                        (click)="deleteLeadDialog(prospect)"
+                        class="icon-control"
+              >delete_outline</mat-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+<!--      <mat-expansion-panel *ngFor="let chat of chatsWithPending">-->
+<!--        <mat-expansion-panel-header>-->
+<!--          <mat-panel-title>-->
+<!--            {{chat.client.name}} <mat-icon class="sm" color="primary">message</mat-icon> {{chat.lead.firstName}} {{chat.lead.lastName}}-->
+<!--          </mat-panel-title>-->
+<!--        </mat-expansion-panel-header>-->
+<!--        <div class="expansion-pane-chat-container">-->
+<!--          <app-chat-window *ngIf="chat.client && chat.lead"-->
+<!--                           [selectedClient]="chat.client"-->
+<!--                           [selectedLead]="chat.lead"-->
+<!--                           [getARs]="true"-->
+<!--                           [chatPending]="chat"-->
+<!--                           class="chat-window stdDialogInput w100"></app-chat-window>-->
+<!--        </div>-->
+<!--      </mat-expansion-panel>-->
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+</div>
+

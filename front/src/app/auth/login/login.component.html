@@ -1,0 +1,26 @@
+<button type="button" mat-raised-button *ngIf="registerFirst" (click)="initReg()">Register Root</button>
+<div class="flex-container">
+  <form class="login-form" id="login-form" [formGroup]="loginForm" ngSubmit="logIn()" novalidate>
+    <mat-card>
+      <div class="card-head">
+        <img src={{LOGO}}>
+      </div>
+      <mat-card-title>Log In</mat-card-title>
+      <mat-form-field>
+        <input matInput placeholder="E-mail"
+               id="email"
+               name="email"
+               formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput
+               type="password"
+               placeholder="Password"
+               id="password"
+               name="password"
+               formControlName="password">
+      </mat-form-field>
+      <button type="submit" mat-raised-button (click)="logIn()">Log In</button>
+    </mat-card>
+  </form>
+</div>

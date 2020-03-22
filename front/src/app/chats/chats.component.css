@@ -1,0 +1,98 @@
+.greytext {
+  color: grey;
+}
+.chat-descriptor {
+  color: #777777;
+  font-weight: normal;
+  font-size: 0.75em;
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+}
+.chat-descriptor span.keyword {
+  color: #444444;
+  font-weight: bold;
+}
+.w100 {
+  width: 100%;
+}
+.centered {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.single-control > * {
+  width: 80%;
+}
+.vertical-margins {
+  margin-top: 5%;
+}
+.flex-full-controls > * {
+  width: 40%;
+}
+.flex-full-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.chatRetrospect {
+  position: relative;
+  background-color: #dadada;
+  padding: 1rem;
+  margin: 1rem auto;
+  border: 2px outset lightsteelblue;
+  border-radius: 1.5rem;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+.chatRetrospect .contentContainer {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 1vh;
+}
+.chatRetrospect .message,
+.chatRetrospect .response {
+  max-width: 70%;
+  position: relative;
+  padding: 1rem 0.5rem;
+  border-radius: 10px;
+}
+.chatRetrospect .message {
+  background-color: steelblue;
+  border: 2px outset steelblue;
+  float: left;
+  clear: both;
+}
+.chatRetrospect .response {
+  background-color: darkseagreen;
+  border: 2px outset darkseagreen;
+  float: right;
+  clear: both;
+}
+.chat-form-controls {
+  margin-bottom: 15vh;
+}
+.b-margin-1 {
+  margin-bottom: 1rem;
+}
+.expansion-pane-chat-container {
+  max-width: 90%;
+  margin: auto;
+}
+.approved-message-client,
+.rejected-message-client {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  padding: 0.5rem;
+  border: 0.5px solid lightgrey;
+  border-left: 0;
+  border-right: 0;
+}
+.approved-message-client {
+  background-image: radial-gradient(#DDEEDD 40%, #FFFFFF, #FFFFFF);
+}
+.rejected-message-client {
+  background-image: radial-gradient(#EEDDDD 40%, #FFFFFF, #FFFFFF);
+}
+/*# sourceMappingURL=chats.component.css.map */

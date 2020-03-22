@@ -1,0 +1,20 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ServerConfigService {
+
+  public serverUrl = 'http://127.0.0.1:8000/';
+  public endpoints = {
+    clients: this.serverUrl + 'api/clients/',
+    leads: this.serverUrl + 'api/leads/',
+    chats: this.serverUrl + 'api/chats/',
+    messages: this.serverUrl + 'api/messages/',
+    responses: this.serverUrl + 'api/responses/',
+    login: this.serverUrl + 'api/login/',
+    register: this.serverUrl + 'api/register/',
+    register_first: this.serverUrl + 'api/register_first/',
+  }
+constructor() { }
+}

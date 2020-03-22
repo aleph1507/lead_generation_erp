@@ -1,0 +1,138 @@
+<h2 mat-dialog-title>Prospect Details</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="leadForm" #lForm (ngSubmit)="save()">
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="DUX ID"
+             formControlName="duxid">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input type="text"
+             placeholder="Client" aria-label="Client"
+             matInput [formControl]="client_id" [matAutocomplete]="auto">
+
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let client of clients" [value]="client">
+          <span>{{ client.name }}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Visit Time"
+             formControlName="visitTime">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Profile"
+             formControlName="profile">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Picture"
+             formControlName="picture">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Degree"
+             formControlName="degree">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Degree"
+             formControlName="degree">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="First Name"
+             formControlName="firstName">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Middle Name"
+             formControlName="middleName">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Last Name"
+             formControlName="lastName">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <textarea matInput
+             placeholder="Summary"
+            formControlName="summary"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Title"
+             formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Title"
+             formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="From"
+             formControlName="from">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Company"
+             formControlName="company">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Company Profile"
+             formControlName="companyProfile">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Company Website"
+             formControlName="companyWebsite">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Personal Website"
+             formControlName="personalWebsite">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Email"
+             formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Phone"
+             formControlName="phone">
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="stdDialogActions">
+  <button class="mat-raised-button" (click)="close()">Close</button>
+  <button class="mat-raised-button mat-primary" [disabled]="!leadForm.valid" (click)="save()">Save</button>
+</mat-dialog-actions>

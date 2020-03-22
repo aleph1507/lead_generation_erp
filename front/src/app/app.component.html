@@ -1,0 +1,75 @@
+<mat-toolbar color="primary" *ngIf="loggedIn" class="hpadded-2">
+  <button type="button" mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon class="white">menu</mat-icon>
+  </button>
+  <span class="mid-spacer">
+          <mat-icon class="white">bubble_chart</mat-icon>Lead Generation ERP</span>
+  <span class="tb-spacer-max"></span>
+  <button type="button" style="position:relative; margin-right: 1rem;"
+          mat-icon-button [matMenuTriggerFor]="userMenu">
+<!--    <span style="font-size: 1.3em;">authService.getFullname()</span>-->
+<!--    <span style="font-size: 1.3em;">U</span>-->
+    <mat-icon class="white">more_vert</mat-icon>
+    <span>{{user ? user.name : ''}}</span>
+
+  </button>
+</mat-toolbar>
+
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item (click)="changePassword()">
+    <mat-icon>perm_identity</mat-icon>
+    <span>Change Password</span>
+  </button>
+  <button mat-menu-item (click)="logOut()">
+    i<mat-icon>lock</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav1" mode="over" position="start" [(opened)]="opened">
+    <button mat-raised-button
+      color="primary" class="sidenav-btn"
+      [routerLink]="['/']"
+      (click)="sidenav.close()">
+      <mat-icon>home</mat-icon>Home
+    </button>
+
+    <button mat-raised-button
+            color="primary" class="sidenav-btn"
+            [routerLink]="['/clients']"
+            (click)="sidenav.close()">
+      <mat-icon>people</mat-icon>Clients
+    </button>
+
+    <button mat-raised-button
+            color="primary" class="sidenav-btn"
+            [routerLink]="['/leads']"
+            (click)="sidenav.close()">
+      <mat-icon>play_for_work</mat-icon>Prospects
+    </button>
+
+    <button mat-raised-button
+            color="primary" class="sidenav-btn"
+            [routerLink]="['/chats']"
+            (click)="sidenav.close()">
+      <mat-icon>chat</mat-icon>Chats
+    </button>
+
+    <div *ngIf="isAdmin">
+      <hr class="sidenav-separator">
+
+      <button mat-raised-button
+              class="sidenav-btn top-margin-0"
+              [routerLink]="['/admin']"
+              (click)="sidenav.close()"
+      >Admin</button>
+    </div>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div id="screens" class="main1">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
