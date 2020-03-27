@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {debounceTime, finalize, switchMap, tap} from 'rxjs/operators';
 import {ClientService} from '../services/client.service';
@@ -22,7 +22,7 @@ import {AuthService} from '../services/auth.service';
   templateUrl: './chats.component.html',
   styleUrls: ['./chats.component.less']
 })
-export class ChatsComponent implements OnInit {
+export class ChatsComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:variable-name
   client_id = new FormControl(null, {
@@ -381,6 +381,12 @@ export class ChatsComponent implements OnInit {
       //   console.log('result:', result);
       // }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dialogSub) {
+      this.dialogSub.unsubscribe();
+    }
   }
 
 }

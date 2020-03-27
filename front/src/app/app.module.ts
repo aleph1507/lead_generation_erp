@@ -26,6 +26,7 @@ import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
+import { ChangePasswordComponent } from './dialogs/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {JwtInterceptor} from './interceptors/jwt.interceptor';
     ClientComponent,
     AdminComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,6 @@ import {JwtInterceptor} from './interceptors/jwt.interceptor';
   entryComponents: [SingleClientComponent, DeleteClientComponent,
                     SingleLeadComponent, DeleteLeadComponent,
                     LeadsCsvComponent, ClientLeadsComponent, LeadsByClientComponent,
-                    ApprovalRequestsComponent]
+                    ApprovalRequestsComponent, ChangePasswordComponent]
 })
 export class AppModule { }

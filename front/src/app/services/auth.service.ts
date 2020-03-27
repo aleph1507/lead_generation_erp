@@ -160,6 +160,17 @@ export class AuthService {
     return this.http.post<User | ServerMessage>(url, body);
   }
 
+  changePassword(userId: number, newPassword: string, oldPassword: string = null) {
+    const fd = new FormData();
+    fd.append('userId', userId.toString());
+    fd.append('newPassword', newPassword);
+    if (oldPassword) {
+      fd.append('oldPassword', oldPassword);
+    }
+
+    return this.http.post<boolean>(this.serverConfigService.endpoints.change_password, fd);
+  }
+
   logIn(email: string, password: string/*, gt = 'password', cid = 'AsecClient'*/) {
     const body = new HttpParams()
       // .set('grant_type', gt)

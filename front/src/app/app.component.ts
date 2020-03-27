@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {AuthService} from './services/auth.service';
 import {User} from './models/User';
+import {MatDialog} from '@angular/material/dialog';
+import {ChangePasswordComponent} from './dialogs/change-password/change-password.component';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +19,11 @@ export class AppComponent implements OnInit, OnDestroy {
   user: User;
   isAdmin = false;
 
+  private dialogSub: Subscription = null;
+
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -36,7 +41,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   changePassword() {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
 
+    });
+
+    this.dialogSub = dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
   logOut() {
@@ -46,6 +57,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.loggedInSub) {
       this.loggedInSub.unsubscribe();
+    }
+
+    if (this.dialogSub) {
+      this.dialogSub.unsubscribe();
     }
   }
 }

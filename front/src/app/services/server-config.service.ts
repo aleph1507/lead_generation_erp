@@ -15,6 +15,7 @@ export class ServerConfigService {
     login: this.serverUrl + 'api/login/',
     register: this.serverUrl + 'api/register/',
     register_first: this.serverUrl + 'api/register_first/',
-  }
+    change_password: this.serverUrl + 'api/change_password/'
+  };
 constructor() { }
 }

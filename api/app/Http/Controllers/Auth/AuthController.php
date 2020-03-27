@@ -10,7 +10,6 @@ class AuthController extends Controller
 {
    public function register(Request $request)
    {
-       $r = $request->all();
        $validatedData = $request->validate([
            'name' => 'required|max:55',
            'email' => 'email|required|unique:users',
@@ -24,7 +23,7 @@ class AuthController extends Controller
 
        $accessToken = $user->createToken('authToken')->accessToken;
 
-       return response(['user'=>$user, 'accessToken' => $accessToken]);
+       return response(['user' => $user, 'accessToken' => $accessToken]);
    }
 
 

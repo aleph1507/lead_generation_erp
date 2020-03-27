@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="borce_api" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/api/artisan" scriptParameters="serve">
+    <method v="2" />
+  </configuration>
+</component>
