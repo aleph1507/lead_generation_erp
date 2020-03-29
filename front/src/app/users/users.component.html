@@ -1,0 +1,88 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<!--private displayedColumns = ['name', 'email', 'admin',-->
+<!--'created_at', 'updated_at', 'edit', 'delete'];-->
+
+<!--private displayedColumnsTrashed = ['name', 'email', 'admin',-->
+<!--'created_at', 'updated_at', 'deleted_at', 'restore', 'shred'];-->
+<div class="register-new">
+    <a routerLink="/register">Register a new user</a>
+</div>
+
+<table mat-table matSort [dataSource]="usersDataSource" #table class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="admin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Administrator </th>
+        <td mat-cell *matCellDef="let user"> {{user.admin ? 'Yes' : 'No'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created at </th>
+        <td mat-cell *matCellDef="let user"> {{user.created_at}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updated_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
+        <td mat-cell *matCellDef="let user"> {{user.updated_at}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deleted_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Trashed At </th>
+        <td mat-cell *matCellDef="let user"> {{user.updated_at}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="restore">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Restore </th>
+        <td mat-cell *matCellDef="let user">
+            <mat-icon matListIcon
+                      (click)="restoreUser($event, user)"
+                      class="icon-control"
+            >restore_from_trash</mat-icon>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let user">
+            <mat-icon matListIcon
+                      (click)="openDialog($event, user)"
+                      class="icon-control"
+            >border_color</mat-icon>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let user">
+            <mat-icon matListIcon
+                      (click)="deleteDialog($event, user)"
+                      class="icon-control"
+            >delete_outline</mat-icon>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="shred">
+        <th mat-header-cell *matHeaderCellDef> Delete Permanently </th>
+        <td mat-cell *matCellDef="let user">
+            <mat-icon matListIcon
+                      (click)="shredUser($event, user)"
+                      class="icon-control"
+            >delete</mat-icon>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+</table>

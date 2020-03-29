@@ -37,11 +37,6 @@
     <app-clients [trashed]="trashedClients" *ngIf="option == options.CLIENTSLIVE"></app-clients>
     <app-clients [trashed]="trashedClients" *ngIf="option == options.CLIENTSTRASHED"></app-clients>
 
-    <div *ngIf="option == options.USERSLIVE">
-      Users Component - Live
-    </div>
-
-    <div *ngIf="option == options.USERSTRASHED">
-      Users Component - Trashed
-    </div>
+    <app-users [trashed]="false" *ngIf="option == options.USERSLIVE"></app-users>
+    <app-users [trashed]="true" *ngIf="option == options.USERSTRASHED"></app-users>
 </div>

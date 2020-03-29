@@ -9,6 +9,7 @@ import {ServerMessage} from '../models/ServerMessage';
 import {RegistrationResponse} from '../models/RegistrationResponse';
 import {User} from '../models/User';
 import {SnackbarService} from './snackbar.service';
+import {toFormData} from "../utils/formdata";
 
 @Injectable({
   providedIn: 'root'
@@ -284,6 +285,33 @@ export class AuthService {
     this.loggedStatus.next(this.loggedIn);
     this.userSubject.next(this.user);
     this.router.navigate(['/login']);
+  }
+
+  getUsers(trashed = false): Observable<{data: User[]}> {
+    const params = new HttpParams().set('trashed', String(trashed));
+    return this.http.get<{data: User[]}>(this.serverConfigService.endpoints.users,
+        {params});
+  }
+
+  getUserAPI(id: number): Observable<{data: User}> {
+    return this.http.get<{data: User}>(this.serverConfigService.endpoints.user);
+  }
+
+  editUser(user: User): Observable<boolean> {
+    const userFormData = toFormData(user);
+    return this.http.post<boolean>(this.serverConfigService.endpoints.user, userFormData);
+  }
+
+  deleteUser(id: number): Observable<User> {
+    return this.http.post<User>(this.serverConfigService.endpoints.user_delete, id);
+  }
+
+  shredUser(id: number): Observable<User> {
+    return this.http.post<User>(this.serverConfigService.endpoints.user_shred, id);
+  }
+
+  restoreUser(id: number): Observable<User> {
+    return this.http.post<User>(this.serverConfigService.endpoints.user_restore, id);
   }
 
 }

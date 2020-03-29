@@ -80,7 +80,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        $r = $request->all();
         return new ClientResource($this->storeModel(
             $client,
             $request,

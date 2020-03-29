@@ -68,9 +68,9 @@ use Illuminate\Http\Request;
 //Route::post('/responses/update/{response}', 'ResponseController@update');
 //Route::delete('/responses/{response}', 'ResponseController@destroy');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+////    return $request->user();
+//});
 
 //Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/register_first', 'Auth\AuthController@register_first')->name('register_first');
@@ -85,6 +85,11 @@ Route::middleware(['AdminMiddleware'])->group(function() {
     Route::post('/leads/restore', 'LeadController@restore');
     Route::post('/leads/shred', 'LeadController@shred');
     Route::get('/leads/trashed', 'LeadController@getTrashed');
+    Route::get('/users', 'Auth\AuthController@get_users')->name('user.index');
+    Route::post('/user/{user}', 'Auth\AuthController@edit_user')->name('user.edit');
+    Route::post('/user/delete/{user}', 'Auth\AuthController@delete_user')->name('user.delete');
+    Route::post('/user/shred', 'Auth\AuthController@shred_user')->name('user.shred');
+    Route::post('/user/restore', 'Auth\AuthController@restore_user')->name('user.shred');
 });
 
 Route::middleware(['auth:api'])->group(function() {
@@ -134,6 +139,13 @@ Route::middleware(['auth:api'])->group(function() {
     Route::delete('/responses/{response}', 'ResponseController@destroy');
     Route::post('/register', 'Auth\AuthController@register')->name('register');
     Route::post('/change_password', 'Auth\AuthController@change_password')->name('change_password');
+    Route::get('/user/{user}', 'Auth\AuthController@get_user')->name('user.get');
+    //    user: this.serverUrl + 'api/user',
+    //    getUserAPI(id: number): Observable<User> {
+//        return this.http.get<User>(this.serverConfigService.endpoints.user);
+//  }
+
+
 });
 
 Route::fallback(function(){

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Traits\ValidateAndCreate;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    use ValidateAndCreate;
    public function register(Request $request)
    {
        $validatedData = $request->validate([
@@ -95,4 +98,79 @@ class AuthController extends Controller
            return (string)$user->save();
        }
    }
+
+   public function get_user(User $user)
+   {
+       return new UserResource($user);
+   }
+
+   public function get_users(Request $request)
+   {
+       $trashed = $request->input('params');
+       if ($trashed)
+       {
+           return UserResource::collection(User::onlyTrashed());
+       }
+       else
+       {
+           return UserResource::collection(User::orderBy('updated_at')->get());
+       }
+   }
+
+   public function edit_user(Request $request, User $user)
+   {
+       if (!$user)
+       {
+           return;
+       }
+       $validated = $this->validate($request, [
+           'name' => 'required',
+           'email' => 'required|unique:users,email_address,'.$user->id,
+           'password' => 'required|min:8',
+           'admin' => 'sometimes|in:true,false'
+       ]);
+
+       $user->update($validated);
+   }
+
+   public function delete_user(User $user)
+   {
+       if ($user)
+       {
+           $user->delete();
+           return new UserResource($user);
+       }
+
+       return null;
+   }
+
+    public function shred_user(Request $request)
+    {
+        $id = $this->validate($request, [
+            'id' => 'required|integer'
+        ]);
+        $user = User::onlyTrashed()->where('id', $id);
+        if ($user)
+        {
+            $user->forceDelete();
+            return new UserResource($user);
+        }
+
+        return null;
+    }
+
+    public function restore_user(Request $request)
+    {
+        $id = $this->validate($request, [
+            'id' => 'required|integer'
+        ]);
+        $user = User::onlyTrashed()->where('id', $id);
+        if ($user)
+        {
+            $user->restore();
+            return new UserResource($user);
+        }
+
+        return null;
+    }
 }

@@ -27,6 +27,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import { ChangePasswordComponent } from './dialogs/change-password/change-password.component';
+import { UsersComponent } from './users/users.component';
+import { UserComponent } from './dialogs/user/user.component';
+import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { ChangePasswordComponent } from './dialogs/change-password/change-passwo
     AdminComponent,
     LoginComponent,
     RegisterComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    UsersComponent,
+    UserComponent,
+    DeleteUserComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +76,7 @@ import { ChangePasswordComponent } from './dialogs/change-password/change-passwo
   entryComponents: [SingleClientComponent, DeleteClientComponent,
                     SingleLeadComponent, DeleteLeadComponent,
                     LeadsCsvComponent, ClientLeadsComponent, LeadsByClientComponent,
-                    ApprovalRequestsComponent, ChangePasswordComponent]
+                    ApprovalRequestsComponent, ChangePasswordComponent, UserComponent,
+                    DeleteUserComponent]
 })
 export class AppModule { }

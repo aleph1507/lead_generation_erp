@@ -1,4 +1,4 @@
-export function toFormData<T>( formValue: T ) {
+export function toFormData<T>( formValue: T ): FormData {
   const formData = new FormData();
 
   for ( const key of Object.keys(formValue) ) {
