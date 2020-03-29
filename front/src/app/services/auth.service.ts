@@ -160,7 +160,7 @@ export class AuthService {
     return this.http.post<User | ServerMessage>(url, body);
   }
 
-  changePassword(userId: number, newPassword: string, oldPassword: string = null) {
+  changePassword(userId: number, newPassword: string, oldPassword: string = null): Observable<boolean> {
     const fd = new FormData();
     fd.append('userId', userId.toString());
     fd.append('newPassword', newPassword);

@@ -133,6 +133,7 @@ Route::middleware(['auth:api'])->group(function() {
     Route::post('/responses/update/{response}', 'ResponseController@update');
     Route::delete('/responses/{response}', 'ResponseController@destroy');
     Route::post('/register', 'Auth\AuthController@register')->name('register');
+    Route::post('/change_password', 'Auth\AuthController@change_password')->name('change_password');
 });
 
 Route::fallback(function(){

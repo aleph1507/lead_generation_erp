@@ -41,6 +41,8 @@
       </mat-checkbox>
 
       <button type="submit" mat-raised-button>Register</button>
+      <button type="button" *ngIf="initRegCheck && !initReg" (click)="router.navigate(['/admin'])" mat-raised-button>Administration</button>
+      <button type="button" *ngIf="initRegCheck && initReg && registered" (click)="router.navigate(['/login'])" mat-raised-button>Login</button>
     </mat-card>
   </form>
 </div>

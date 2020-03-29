@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   public LOGO = 'assets/img/asec-logo.png';
   private initRegCheck: boolean;
   private initReg: boolean;
+  private registered = false;
 
   constructor(
     private authService: AuthService,
@@ -35,32 +36,33 @@ export class RegisterComponent implements OnInit {
         }
       }
 
-      this.registerForm = new FormGroup({
-        name: new FormControl('', {
-          validators: [Validators.required],
-          updateOn: 'change'
-        }),
-        email: new FormControl('', {
-          validators: [Validators.required, Validators.email],
-          updateOn: 'change'
-        }),
-        password: new FormControl('', {
-          validators: [Validators.required, Validators.minLength(6)],
-          updateOn: 'change'
-        }),
-        password_confirmation: new FormControl('', {
-          validators: [Validators.required, Validators.minLength(6)]
-        }),
-        administrator: new FormControl({value: this.initReg, disabled: this.initReg}),
-      }, {
-        // validator: this.mustMatch('password', 'password_confirmation')
-        // validator: CustomValidators.mustMatch('password', 'password_confirmation')
-      });
+      this.registerForm = this.createRegisterForm();
     });
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
 
+  }
+
+  createRegisterForm() {
+    return new FormGroup({
+      name: new FormControl('', {
+        validators: [Validators.required],
+        updateOn: 'change'
+      }),
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.email],
+        updateOn: 'change'
+      }),
+      password: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(6)],
+        updateOn: 'change'
+      }),
+      password_confirmation: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(6)]
+      }),
+      administrator: new FormControl({value: this.initReg, disabled: this.initReg}),
+    }, {
+      // validator: this.mustMatch('password', 'password_confirmation')
+      // validator: CustomValidators.mustMatch('password', 'password_confirmation')
+    });
   }
 
   mustMatch(controlName: string, matchingControlName: string) {
@@ -98,8 +100,11 @@ export class RegisterComponent implements OnInit {
               catchError(this.handleError);
               this.snackbarService.openSnackbar('User ' + this.registerForm.controls.name.value + ' registered.');
               console.log('user:', user);
-              // this.authService.setUser()
-              // console.log('user:', user);
+              this.registerForm = this.createRegisterForm();
+              this.registered = true;
+              if (this.initRegCheck && this.initReg) {
+                this.router.navigate(['/login']);
+              }
           },
           (error) => {
             this.snackbarService.openSnackbar('There has been an error.');

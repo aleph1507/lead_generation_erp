@@ -4,12 +4,15 @@ import {debounceTime, finalize, switchMap, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {ClientService} from '../services/client.service';
 import {Client} from '../models/Client';
+import {Router} from "@angular/router";
 
 enum OPTIONS {
   PROSPECTSLIVE = 1 ,
   PROSPECTSTRASHED,
   CLIENTSLIVE,
-  CLIENTSTRASHED
+  CLIENTSTRASHED,
+  USERSLIVE,
+  USERSTRASHED
 }
 
 @Component({
@@ -26,7 +29,9 @@ export class AdminComponent implements OnInit {
   trashedProspects = false;
   trashedClients = false;
 
-  constructor() { }
+  constructor(
+      private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -53,6 +58,14 @@ export class AdminComponent implements OnInit {
   clientsTrashed() {
     this.trashedClients = true;
     this.option = OPTIONS.CLIENTSTRASHED;
+  }
+
+  usersLive() {
+    this.option = OPTIONS.USERSLIVE;
+  }
+
+  usersTrashed() {
+    this.option = OPTIONS.USERSTRASHED;
   }
 
   nullOption() {

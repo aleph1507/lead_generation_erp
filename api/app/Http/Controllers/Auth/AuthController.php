@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -47,8 +48,6 @@ class AuthController extends Controller
        return $this->register($request);
    }
 
-
-
    public function login(Request $request)
    {
        $loginData = $request->validate([
@@ -64,5 +63,36 @@ class AuthController extends Controller
        $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
        return response(['user' => auth()->user(), 'accessToken' => $accessToken]);
+   }
+
+   public function change_password(Request $request)
+   {
+       $logged_in = auth()->user();
+       $r = $request->all();
+       $validation_rules = ['userId' => 'required|integer|exists:users,id', 'newPassword' => 'required|min:8'];
+       if (!$logged_in->is_admin())
+       {
+           $validation_rules['oldPassword'] = 'required';
+       }
+
+       $data = $request->validate($validation_rules);
+
+       $id = (int)$request->get('userId');
+
+       if (!$logged_in->is_admin())
+       {
+           if ($id !== $logged_in->id || !Hash::check($data['oldPassword'], $logged_in->getAuthPassword()))
+           {
+               return response('Unauthorized', 403);
+           }
+           $logged_in->password = Hash::make($data['newPassword']);
+           return (string)$logged_in->save();
+       }
+       else
+       {
+           $user = User::find($id);
+           $user->password = bcrypt($request->get('newPassword'));
+           return (string)$user->save();
+       }
    }
 }

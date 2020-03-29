@@ -11,9 +11,15 @@
       <button mat-raised-button (click)="prospectsLive()" color="primary">Live Prospects</button>
       <button mat-raised-button (click)="prospectsTrashed()" color="primary">Deleted Prospects</button>
     </div>
-
   </mat-tab>
-  <mat-tab label="Settings"> Settings1 </mat-tab>
+  <mat-tab label="Users">
+    <div class="admin-controls">
+      <button mat-stroked-button (click)="router.navigate(['/register'])">Register New User</button>
+      <button mat-raised-button (click)="usersLive()" color="primary">Live Users</button>
+      <button mat-raised-button (click)="usersTrashed()" color="primary">Deleted Users</button>
+    </div>
+  </mat-tab>
+<!--  <mat-tab label="Settings"> Settings1 </mat-tab>-->
 </mat-tab-group>
 
 <div id="output" class="output" #output *ngIf="option">
@@ -22,10 +28,20 @@
     <h1 *ngIf="option == options.PROSPECTSTRASHED">Trashed Prospects</h1>
     <h1 *ngIf="option == options.CLIENTSLIVE">Live Clients</h1>
     <h1 *ngIf="option == options.CLIENTSTRASHED">Trashed Clients</h1>
+    <h1 *ngIf="option == options.USERSLIVE">Live Users</h1>
+    <h1 *ngIf="option == options.USERSTRASHED">Trashed Users</h1>
   </div>
     <app-leads [trashed]="trashedProspects" *ngIf="option == options.PROSPECTSLIVE"></app-leads>
     <app-leads [trashed]="trashedProspects" *ngIf="option == options.PROSPECTSTRASHED"></app-leads>
 
     <app-clients [trashed]="trashedClients" *ngIf="option == options.CLIENTSLIVE"></app-clients>
     <app-clients [trashed]="trashedClients" *ngIf="option == options.CLIENTSTRASHED"></app-clients>
+
+    <div *ngIf="option == options.USERSLIVE">
+      Users Component - Live
+    </div>
+
+    <div *ngIf="option == options.USERSTRASHED">
+      Users Component - Trashed
+    </div>
 </div>

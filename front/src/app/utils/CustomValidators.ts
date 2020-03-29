@@ -30,6 +30,8 @@ export function matchingPasswords(passwordKey: string, confirmPasswordKey: strin
                 mismatchedPasswords: true
             };
         }
+
+        return null;
     };
 }
 

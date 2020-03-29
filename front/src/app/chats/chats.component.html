@@ -1,8 +1,8 @@
-<div class="b-margin-1 stdDialogInput">
-  <button mat-stroked-button class="mat-primary"
-          *ngIf="selectedClient && selectedLead && chatItems"
-          (click)="openARDialog(selectedClient, selectedLead, chatItems, true, false)">See Approval Requests for {{selectedClient.name}}'s prospect</button>
-</div>
+<!--<div class="b-margin-1 stdDialogInput">-->
+<!--  <button mat-stroked-button class="mat-primary"-->
+<!--          *ngIf="selectedClient && selectedLead && chatItems"-->
+<!--          (click)="openARDialog(selectedClient, selectedLead, chatItems, true, false)">See Approval Requests for {{selectedClient.name}}'s prospect</button>-->
+<!--</div>-->
 
 <div class="b-margin-1 stdDialogInput w100" *ngIf="chatsWithPending">
   <mat-accordion matBadge="{{chatsWithPending.length}}" matBadgeColor="warn" matBadgePosition="after">

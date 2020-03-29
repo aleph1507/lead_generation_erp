@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,6 +36,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use HasApiTokens, Notifiable;
 
     /**
@@ -66,7 +68,6 @@ class User extends Authenticatable
 
     public function is_admin()
     {
-        $admin = $this->admin;
         return $this->admin;
     }
 }
