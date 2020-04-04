@@ -23,7 +23,6 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();
         return ClientResource::collection(Client::all());
     }
 

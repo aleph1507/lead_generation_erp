@@ -7,11 +7,13 @@ use App\Http\Resources\UserResource;
 use App\Traits\ValidateAndCreate;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     use ValidateAndCreate;
+
    public function register(Request $request)
    {
        $validatedData = $request->validate([
@@ -106,10 +108,13 @@ class AuthController extends Controller
 
    public function get_users(Request $request)
    {
-       $trashed = $request->input('params');
+       $this->validate($request, [
+           'trashed' => 'sometimes|in:true,false'
+       ]);
+       $trashed = $request->input('trashed') === 'true';
        if ($trashed)
        {
-           return UserResource::collection(User::onlyTrashed());
+           return UserResource::collection(User::onlyTrashed()->get());
        }
        else
        {
@@ -137,6 +142,10 @@ class AuthController extends Controller
    {
        if ($user)
        {
+           if ($user->id === auth()->user()->id)
+           {
+               return response(['message' => 'Cannot delete yourself'], 418);
+           }
            $user->delete();
            return new UserResource($user);
        }
@@ -168,7 +177,7 @@ class AuthController extends Controller
         if ($user)
         {
             $user->restore();
-            return new UserResource($user);
+            return json_encode($user);
         }
 
         return null;

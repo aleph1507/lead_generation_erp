@@ -15,6 +15,7 @@ import {MatDialog} from '@angular/material';
 import {SnackbarService} from '../services/snackbar.service';
 import {ApprovalRequestsComponent} from '../dialogs/approval-requests/approval-requests.component';
 import {AuthService} from '../services/auth.service';
+import {User} from "../models/User";
 // import {ChatsPerClient} from '../models/ChatsPerClient';
 
 @Component({
@@ -41,6 +42,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
   approvedChatItems: Chat[];
   rejectedChatItems: Chat[];
   showChatItemsAccordion = false;
+  user: User;
 
   // tslint:disable-next-line:variable-name
   lead_id = new FormControl(null, {
@@ -153,7 +155,8 @@ export class ChatsComponent implements OnInit, OnDestroy {
     });
 
     this.authService.userSubject.asObservable().subscribe(user => {
-      this.isAdmin = user && user.admin;
+      this.user = user;
+      this.isAdmin = this.user && this.user.admin;
       if (this.isAdmin) {
         this.getChatsWithPending();
       }

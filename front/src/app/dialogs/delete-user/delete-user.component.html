@@ -1,1 +1,13 @@
-<p>delete-user works!</p>
+
+<mat-dialog-content>
+
+<!--    <mat-dialog-actions>-->
+        <div style="display:block;">Are you sure you want to delete user {{ data.user.name }}?</div>
+        <br>
+        <div>
+            <button class="mat-raised-button" (click)="close()">Cancel</button>
+            <button class="mat-raised-button mat-primary" (click)="delete()">Delete</button>
+        </div>
+<!--    </mat-dialog-actions>-->
+
+</mat-dialog-content>

@@ -59,23 +59,23 @@ export class LeadsComponent implements OnInit, OnDestroy {
     this.getAll();
   }
 
-  parseClient(lead: Lead) {
-    let clientResult = 'N/A';
-    if (lead.client && lead.client.length) {
-      // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < lead.client.length; i++) {
-        if (clientResult === 'N/A') {
-          clientResult = '';
-        }
-        clientResult += lead.client[i].name;
-        if (i < lead.client.length - 1) {
-          clientResult = ', ';
-        }
-      }
-    }
-
-    return clientResult;
-  }
+  // parseClient(lead: Lead) {
+  //   let clientResult = 'N/A';
+  //   if (lead.client && lead.client.length) {
+  //     // tslint:disable-next-line:prefer-for-of
+  //     for (let i = 0; i < lead.client.length; i++) {
+  //       if (clientResult === 'N/A') {
+  //         clientResult = '';
+  //       }
+  //       clientResult += lead.client[i].name;
+  //       if (i < lead.client.length - 1) {
+  //         clientResult = ', ';
+  //       }
+  //     }
+  //   }
+  //
+  //   return clientResult;
+  // }
 
   handleError(error: any) {
     console.log(error);
@@ -93,7 +93,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
       this.leads = result.data;
       console.log('leads: ', this.leads);
       this.leads.forEach(lead => {
-        lead.parsedClients = this.parseClient(lead);
+        lead.parsedClients = this.leadService.parseClient(lead);
       });
       catchError(this.handleError);
       this.leadsDataSource.data = this.leads;

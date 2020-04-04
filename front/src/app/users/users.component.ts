@@ -79,8 +79,16 @@ export class UsersComponent implements OnInit {
     this.unsub();
     this.dialogSub = dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.getUsers();
-        this.snackbarService.openSnackbar('User ' + user.name + ' deleted successfully');
+        this.authService.deleteUser(user.id).subscribe(deletion => {
+          if (deletion) {
+            console.log('deletion:', deletion);
+            this.getUsers();
+            this.snackbarService.openSnackbar('User ' + user.name + ' deleted successfully');
+          }
+        }, error => {
+          this.snackbarService.openSnackbar('There has been a problem deleting ' + user.name + '.', SNACKBAR.DANGER);
+        });
+
       }
     });
   }

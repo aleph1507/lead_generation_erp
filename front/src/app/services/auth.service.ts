@@ -9,7 +9,7 @@ import {ServerMessage} from '../models/ServerMessage';
 import {RegistrationResponse} from '../models/RegistrationResponse';
 import {User} from '../models/User';
 import {SnackbarService} from './snackbar.service';
-import {toFormData} from "../utils/formdata";
+import {toFormData} from '../utils/formdata';
 
 @Injectable({
   providedIn: 'root'
@@ -303,7 +303,7 @@ export class AuthService {
   }
 
   deleteUser(id: number): Observable<User> {
-    return this.http.post<User>(this.serverConfigService.endpoints.user_delete, id);
+    return this.http.delete<User>(this.serverConfigService.endpoints.user_delete + id);
   }
 
   shredUser(id: number): Observable<User> {
@@ -311,7 +311,7 @@ export class AuthService {
   }
 
   restoreUser(id: number): Observable<User> {
-    return this.http.post<User>(this.serverConfigService.endpoints.user_restore, id);
+    return this.http.post<User>(this.serverConfigService.endpoints.user_restore, {id});
   }
 
 }

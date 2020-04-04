@@ -16,6 +16,24 @@ export class LeadService {
     private server: ServerConfigService
   ) { }
 
+  parseClient(lead: Lead) {
+    let clientResult = 'N/A';
+    if (lead.client && lead.client.length) {
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < lead.client.length; i++) {
+        if (clientResult === 'N/A') {
+          clientResult = '';
+        }
+        clientResult += lead.client[i].name;
+        if (i < lead.client.length - 1) {
+          clientResult = ', ';
+        }
+      }
+    }
+
+    return clientResult;
+  }
+
   getLeads(): Observable<{data: Lead[]}> {
     return this.httpClient.get<{data: Lead[]}>(this.server.endpoints.leads);
   }

@@ -16,11 +16,11 @@ export class ServerConfigService {
     register: this.serverUrl + 'api/register/',
     register_first: this.serverUrl + 'api/register_first/',
     change_password: this.serverUrl + 'api/change_password/',
-    users: this.serverUrl + 'api/users',
-    user: this.serverUrl + 'api/user',
-    user_delete: this.serverUrl + 'api/user/delete',
-    user_shred: this.serverUrl + 'api/user/shred',
-    user_restore: this.serverUrl + 'api/user/restore'
+    users: this.serverUrl + 'api/users/',
+    user: this.serverUrl + 'api/user/',
+    user_delete: this.serverUrl + 'api/user/delete/',
+    user_shred: this.serverUrl + 'api/user/shred/',
+    user_restore: this.serverUrl + 'api/user/restore/'
   };
 constructor() { }
 }

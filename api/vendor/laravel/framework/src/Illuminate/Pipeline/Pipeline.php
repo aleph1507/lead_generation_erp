@@ -171,7 +171,7 @@ class Pipeline implements PipelineContract
                                     ? $pipe->{$this->method}(...$parameters)
                                     : $pipe(...$parameters);
 
-                    return $this->handleCarry($carry);
+                     return $this->handleCarry($carry);
                 } catch (Exception $e) {
                     return $this->handleException($passable, $e);
                 } catch (Throwable $e) {
