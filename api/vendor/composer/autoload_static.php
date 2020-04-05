@@ -613,6 +613,7 @@ class ComposerStaticInit0305abebf5f668c21ada72e92a579873
         'App\\Http\\Resources\\LeadResource' => __DIR__ . '/../..' . '/app/Http/Resources/LeadResource.php',
         'App\\Http\\Resources\\MessageResource' => __DIR__ . '/../..' . '/app/Http/Resources/MessageResource.php',
         'App\\Http\\Resources\\ResponseResource' => __DIR__ . '/../..' . '/app/Http/Resources/ResponseResource.php',
+        'App\\Http\\Resources\\UserResource' => __DIR__ . '/../..' . '/app/Http/Resources/UserResource.php',
         'App\\Lead' => __DIR__ . '/../..' . '/app/Lead.php',
         'App\\Message' => __DIR__ . '/../..' . '/app/Message.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',

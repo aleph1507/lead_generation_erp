@@ -30,6 +30,7 @@ import { ChangePasswordComponent } from './dialogs/change-password/change-passwo
 import { UsersComponent } from './users/users.component';
 import { UserComponent } from './dialogs/user/user.component';
 import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
+import { RegisterFormComponent } from './auth/register-form/register-form.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component
     ChangePasswordComponent,
     UsersComponent,
     UserComponent,
-    DeleteUserComponent
+    DeleteUserComponent,
+    RegisterFormComponent
   ],
   imports: [
     BrowserModule,

@@ -59,12 +59,20 @@ export class UsersComponent implements OnInit {
 
     this.unsub();
     this.dialogSub = dialogRef.afterClosed().subscribe(res => {
-      if (res && res.data && res.data.success) {
+      if (res) {
         this.getUsers();
-        this.snackbarService.openSnackbar('User edited successfully', SNACKBAR.SUCCESS);
-      } else {
-        this.snackbarService.openSnackbar('There has been a problem editing the user.', SNACKBAR.DANGER);
+        this.snackbarService.openSnackbar('User updated successfully.');
       }
+
+      if (res === false) {
+        this.snackbarService.openSnackbar('There has been a problem updating the user.', SNACKBAR.DANGER);
+      }
+      // if (res && res.data && res.data.success) {
+      //   this.getUsers();
+      //   this.snackbarService.openSnackbar('User edited successfully', SNACKBAR.SUCCESS);
+      // } else {
+      //   this.snackbarService.openSnackbar('There has been a problem editing the user.', SNACKBAR.DANGER);
+      // }
     });
   }
 

@@ -78,6 +78,7 @@ Route::post('/register_first', 'Auth\AuthController@register_first')->name('regi
 Route::post('/login', 'Auth\AuthController@login')->name('login');
 
 Route::middleware(['auth:api', 'AdminMiddleware'])->group(function() {
+    Route::post('/user/{user}/edit', 'Auth\AuthController@edit_user')->name('user.edit');
     Route::get('/chats/get-pending-ar', 'ChatController@get_pending_ar');
     Route::get('/clients/trashed', 'ClientController@getTrashed');
     Route::post('/clients/restore', 'ClientController@restore');
@@ -89,7 +90,6 @@ Route::middleware(['auth:api', 'AdminMiddleware'])->group(function() {
     Route::delete('/user/delete/{user}', 'Auth\AuthController@delete_user')->name('user.delete');
     Route::post('/user/shred', 'Auth\AuthController@shred_user')->name('user.shred');
     Route::post('/user/restore', 'Auth\AuthController@restore_user')->name('user.restore');
-    Route::post('/user/{user}', 'Auth\AuthController@edit_user')->name('user.edit');
 });
 
 Route::middleware(['auth:api'])->group(function() {

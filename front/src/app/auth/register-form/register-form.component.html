@@ -1,0 +1,46 @@
+<form *ngIf="initRegCheck" class="login-form" id="login-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+    <mat-card>
+        <div class="card-head">
+            <img src={{LOGO}}>
+        </div>
+        <mat-card-title>Register</mat-card-title>
+        <mat-form-field>
+            <input matInput placeholder="Name"
+                   id="name"
+                   name="name"
+                   formControlName="name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="E-mail"
+                   id="email"
+                   name="email"
+                   formControlName="email">
+        </mat-form-field>
+        <mat-form-field *ngIf="!user">
+            <input matInput
+                   type="password"
+                   placeholder="Password"
+                   id="password"
+                   name="password"
+                   formControlName="password">
+        </mat-form-field>
+        <mat-form-field *ngIf="!user">
+            <input matInput
+                   type="password"
+                   placeholder="Confirm Password"
+                   id="password_confirmation"
+                   name="password_confirmation"
+                   formControlName="password_confirmation">
+        </mat-form-field>
+        <mat-checkbox
+                id="administrator"
+                name="administrator"
+                formControlName="administrator">
+            Administrator
+        </mat-checkbox>
+
+        <button type="submit" mat-raised-button>{{this.user ? 'Update' : 'Register'}}</button>
+        <button type="button" *ngIf="initRegCheck && !initReg" (click)="router.navigate(['/admin'])" mat-raised-button>Administration</button>
+        <button type="button" *ngIf="initRegCheck && initReg && registered" (click)="router.navigate(['/login'])" mat-raised-button>Login</button>
+    </mat-card>
+</form>

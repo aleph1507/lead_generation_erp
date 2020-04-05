@@ -38,6 +38,7 @@ return array(
     'App\\Http\\Resources\\LeadResource' => $baseDir . '/app/Http/Resources/LeadResource.php',
     'App\\Http\\Resources\\MessageResource' => $baseDir . '/app/Http/Resources/MessageResource.php',
     'App\\Http\\Resources\\ResponseResource' => $baseDir . '/app/Http/Resources/ResponseResource.php',
+    'App\\Http\\Resources\\UserResource' => $baseDir . '/app/Http/Resources/UserResource.php',
     'App\\Lead' => $baseDir . '/app/Lead.php',
     'App\\Message' => $baseDir . '/app/Message.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

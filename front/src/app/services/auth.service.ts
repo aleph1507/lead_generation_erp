@@ -287,6 +287,24 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  editUser(id: number, name: string, email: string,
+           admin: any = false, password?: string): Observable<{data: User} | ServerMessage> {
+    // const userFormData = toFormData(user);
+    // return this.http.post<boolean>(this.serverConfigService.endpoints.user, userFormData)
+
+    admin = admin ? '1' : '0';
+    const body = new HttpParams()
+        .set('id', id.toString())
+        .set('name', name)
+        .set('email', email)
+        .set('admin', admin);
+    if (password) {
+      body.set('password', password);
+    }
+
+    return this.http.post<{data: User} | ServerMessage>(this.serverConfigService.endpoints.user + id + '/edit/', body);
+  }
+
   getUsers(trashed = false): Observable<{data: User[]}> {
     const params = new HttpParams().set('trashed', String(trashed));
     return this.http.get<{data: User[]}>(this.serverConfigService.endpoints.users,
@@ -297,17 +315,12 @@ export class AuthService {
     return this.http.get<{data: User}>(this.serverConfigService.endpoints.user);
   }
 
-  editUser(user: User): Observable<boolean> {
-    const userFormData = toFormData(user);
-    return this.http.post<boolean>(this.serverConfigService.endpoints.user, userFormData);
-  }
-
   deleteUser(id: number): Observable<User> {
     return this.http.delete<User>(this.serverConfigService.endpoints.user_delete + id);
   }
 
   shredUser(id: number): Observable<User> {
-    return this.http.post<User>(this.serverConfigService.endpoints.user_shred, id);
+    return this.http.post<User>(this.serverConfigService.endpoints.user_shred, {id});
   }
 
   restoreUser(id: number): Observable<User> {

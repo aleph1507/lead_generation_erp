@@ -130,12 +130,14 @@ class AuthController extends Controller
        }
        $validated = $this->validate($request, [
            'name' => 'required',
-           'email' => 'required|unique:users,email_address,'.$user->id,
-           'password' => 'required|min:8',
-           'admin' => 'sometimes|in:true,false'
+           'email' => 'required|unique:users,email,'.$user->id,
+           'password' => 'sometimes|min:8',
+           'admin' => 'sometimes|in:0,1'
        ]);
 
        $user->update($validated);
+
+       return new UserResource($user);
    }
 
    public function delete_user(User $user)
@@ -162,7 +164,7 @@ class AuthController extends Controller
         if ($user)
         {
             $user->forceDelete();
-            return new UserResource($user);
+            return json_encode($user);
         }
 
         return null;
