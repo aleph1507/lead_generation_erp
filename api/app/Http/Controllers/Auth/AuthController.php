@@ -135,6 +135,11 @@ class AuthController extends Controller
            'admin' => 'sometimes|in:0,1'
        ]);
 
+       if (isset($validated['password']))
+       {
+           $validated['password'] = Hash::make($validated['password']);
+       }
+
        $user->update($validated);
 
        return new UserResource($user);

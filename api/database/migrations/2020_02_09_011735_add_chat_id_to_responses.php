@@ -16,7 +16,7 @@ class AddChatIdToResponses extends Migration
         Schema::table('responses', function (Blueprint $table) {
             $table->unsignedBigInteger('chat_id')->nullable();
             $table->foreign('chat_id')->references('id')->on('chats')
-                ->onDelete('set null');
+                ->onDelete('cascade');
         });
     }
 

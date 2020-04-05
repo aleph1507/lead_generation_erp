@@ -138,6 +138,9 @@ export class ChatsComponent implements OnInit, OnDestroy {
             if (lead && lead.client && Array.isArray(lead.client) && lead.client.length > 0) {
               clientString = '(';
               lead.client.forEach((c: Client) => {
+                if (clientString.length > 3) {
+                  clientString += ', ';
+                }
                 clientString += c.name;
               });
               clientString += ')';

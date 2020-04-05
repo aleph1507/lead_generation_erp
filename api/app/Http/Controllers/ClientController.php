@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\Http\Resources\LeadResource;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClientResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Traits\ValidateAndCreate;
 
@@ -39,6 +41,22 @@ class ClientController extends Controller
         })->reverse();
     }
 
+    public function get_users_clients(Request $request)
+    {
+        $this->validate($request, [
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        return (User::find((int)$request->get('id')))->clients;
+    }
+
+    public function get_own_clients()
+    {
+        return auth()->user()->clients;
+//        $user = auth()->user()->clients;
+//        return $this->get_users_clients($user);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -48,15 +66,39 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return new ClientResource($this->storeModel(
+        $user_id = $this->validate($request, [
+            'user_id' => 'sometimes|exists:users,id'
+        ]);
+
+        $client = $this->storeModel(
             new Client(),
             $request,
             [
                 'name' => 'required|string|max:255',
                 'description' => 'sometimes',
                 'csv_file' => 'sometimes|file|mimes:csv,txt',
+
             ]
-        ));
+        );
+
+        if ($user_id)
+        {
+            $client->user_id = (int)$request->get('user_id');
+            $client->save();
+        }
+
+        return new ClientResource($client);
+
+//        return new ClientResource($this->storeModel(
+//            new Client(),
+//            $request,
+//            [
+//                'name' => 'required|string|max:255',
+//                'description' => 'sometimes',
+//                'csv_file' => 'sometimes|file|mimes:csv,txt',
+//                'user_id' => 'sometimes|exists:users,id'
+//            ]
+//        ));
     }
 
     /**
@@ -79,14 +121,35 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        return new ClientResource($this->storeModel(
+        $user_id = $this->validate($request, [
+            'user_id' => 'sometimes|exists:users,id'
+        ]);
+
+        $c = $this->storeModel(
             $client,
             $request,
             [
                 'name' => 'required|string|max:255',
                 'description' => 'sometimes'
             ]
-        ));
+        );
+
+        if ($user_id)
+        {
+            $client->user_id = (int)$request->get('user_id');
+            $client->save();
+        }
+
+        return new ClientResource($c);
+
+//        return new ClientResource($this->storeModel(
+//            $client,
+//            $request,
+//            [
+//                'name' => 'required|string|max:255',
+//                'description' => 'sometimes'
+//            ]
+//        ));
     }
 
     /**

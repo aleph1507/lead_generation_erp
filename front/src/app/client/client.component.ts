@@ -12,7 +12,7 @@ import {SingleLeadComponent} from '../dialogs/single-lead/single-lead.component'
 import {SNACKBAR} from '../enums/snackbar.enum';
 import {DeleteLeadComponent} from '../dialogs/single-lead/delete-lead/delete-lead.component';
 import {LeadService} from '../services/lead.service';
-import {AuthService} from "../services/auth.service";
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-client',

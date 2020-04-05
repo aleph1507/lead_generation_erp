@@ -23,6 +23,7 @@ class ClientResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'no_leads' => $this->leads->count(),
+            'user' => new UserResource($this->user),
             'created_at' => $this->created_at->toDateString(),
             'updated_at' => $this->updated_at->toDateString()
         ];

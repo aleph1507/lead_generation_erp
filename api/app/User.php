@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->admin;
     }
+
+    public function clients()
+    {
+        return $this->hasMany('\App\Client');
+    }
 }

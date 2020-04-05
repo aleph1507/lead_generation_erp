@@ -3,6 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Client} from '../../models/Client';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ClientService} from '../../services/client.service';
+import {AuthService} from '../../services/auth.service';
+import {User} from '../../models/User';
 
 @Component({
   selector: 'app-single-client',
@@ -11,18 +13,25 @@ import {ClientService} from '../../services/client.service';
 })
 export class SingleClientComponent implements OnInit {
 
-  clientForm: FormGroup;
+  clientForm: FormGroup = null;
   client: Client;
+  users: User[];
+  user: User;
 
   constructor(
     public dialogRef: MatDialogRef<SingleClientComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.client = this.data ? (this.data.client ? this.data.client : new Client()) : new Client();
-    this.clientForm = this.createClientForm();
+    this.authService.getUsers().subscribe(users => {
+      this.client = this.data ? (this.data.client ? this.data.client : new Client()) : new Client();
+      this.user = this.client ? (this.client.user ? this.client.user : null) : null;
+      this.users = users.data;
+      this.clientForm = this.createClientForm();
+    });
   }
 
   save() {
@@ -43,6 +52,13 @@ export class SingleClientComponent implements OnInit {
           this.clientForm.controls.csv_file.value.files[0]) {
 
         this.client.csv_file = this.clientForm.controls.csv_file.value.files[0];
+      }
+
+      if (this.clientForm.controls.selectUser &&
+          this.clientForm.controls.selectUser.value &&
+          this.clientForm.controls.selectUser.value !== '') {
+
+        this.client.user_id = this.clientForm.controls.selectUser.value;
       }
 
     }
@@ -73,7 +89,8 @@ export class SingleClientComponent implements OnInit {
         validators: [Validators.required]
       }),
       description: new FormControl(this.client.description, { }),
-      csv_file: new FormControl(null, { })
+      csv_file: new FormControl(null, { }),
+      selectUser: new FormControl(this.user ? this.user.id : null, { })
     });
   }
 

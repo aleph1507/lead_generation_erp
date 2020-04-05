@@ -139,6 +139,8 @@ Route::middleware(['auth:api'])->group(function() {
     Route::delete('/responses/{response}', 'ResponseController@destroy');
     Route::post('/register', 'Auth\AuthController@register')->name('register');
     Route::post('/change_password', 'Auth\AuthController@change_password')->name('change_password');
+    Route::post('/user/own_clients', 'Auth\AuthController@get_own_clients')->name('get_own_clients');
+    Route::post('/user/clients', 'Auth\AuthController@get_users_clients')->name('get_users_clients');
     Route::get('/user/{user}', 'Auth\AuthController@get_user')->name('user.get');
     //    user: this.serverUrl + 'api/user',
     //    getUserAPI(id: number): Observable<User> {

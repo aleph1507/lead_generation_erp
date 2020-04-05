@@ -26,7 +26,7 @@ export class LeadService {
         }
         clientResult += lead.client[i].name;
         if (i < lead.client.length - 1) {
-          clientResult = ', ';
+          clientResult += ', ';
         }
       }
     }

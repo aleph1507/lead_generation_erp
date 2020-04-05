@@ -288,15 +288,20 @@ export class AuthService {
   }
 
   editUser(id: number, name: string, email: string,
-           admin: any = false, password?: string): Observable<{data: User} | ServerMessage> {
+           admin: any = false, password: string = null): Observable<{data: User} | ServerMessage> {
     // const userFormData = toFormData(user);
     // return this.http.post<boolean>(this.serverConfigService.endpoints.user, userFormData)
 
     admin = admin ? '1' : '0';
-    const body = new HttpParams()
-        .set('id', id.toString())
-        .set('name', name)
-        .set('email', email)
+    // const body = new HttpParams()
+    const body = new FormData();
+    body
+        .set('id', id.toString());
+    body
+        .set('name', name);
+    body
+        .set('email', email);
+    body
         .set('admin', admin);
     if (password) {
       body.set('password', password);

@@ -79,11 +79,6 @@ class ResponseController extends Controller
      */
     public function destroy(Response $response)
     {
-        $r = $response;
-        $rd = Response::find($response);
-
-        $rr = Response::find($response);
-
         $response->delete();
         return $response;
     }
