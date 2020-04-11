@@ -44,7 +44,7 @@
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)='getLeads($event.option.value)' [displayWith]="displayClientFn">
     <mat-option *ngFor="let client of clients" [value]="client">
-      <span>{{ client.name }}</span>
+      <span>{{ client.name }} {{client.userTag}}</span>
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

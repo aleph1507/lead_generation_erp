@@ -12,6 +12,8 @@ use App\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Traits\ValidateAndCreate;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ChatController extends Controller
 {
@@ -42,6 +44,16 @@ class ChatController extends Controller
             'role' => 'required|in:Message,Response,approvalRequest',
             'text' => 'required|string'
         ]);
+
+        if (!($client = Client::find($request->get('client_id'))))
+        {
+            return new \Exception('cannot find client', 404);
+        }
+
+        if (!(Gate::check('can-message', [$client])))
+        {
+            return new \Exception('unauthorized', 401);
+        }
 
         if (!($role = $request->get('role')))
         {

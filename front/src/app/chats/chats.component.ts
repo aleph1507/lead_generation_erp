@@ -15,7 +15,7 @@ import {MatDialog} from '@angular/material';
 import {SnackbarService} from '../services/snackbar.service';
 import {ApprovalRequestsComponent} from '../dialogs/approval-requests/approval-requests.component';
 import {AuthService} from '../services/auth.service';
-import {User} from "../models/User";
+import {User} from '../models/User';
 // import {ChatsPerClient} from '../models/ChatsPerClient';
 
 @Component({
@@ -43,6 +43,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
   rejectedChatItems: Chat[];
   showChatItemsAccordion = false;
   user: User;
+  userAuthSubscription: Subscription;
 
   // tslint:disable-next-line:variable-name
   lead_id = new FormControl(null, {
@@ -102,7 +103,14 @@ export class ChatsComponent implements OnInit, OnDestroy {
           );
         })
       ).subscribe(data => {
-          data && typeof data !== 'boolean' ? this.clients = data.data : this.clientOTP = false;
+      data && typeof data !== 'boolean' ? this.clients = data.data : this.clientOTP = false;
+      this.clients.forEach((c) => {
+        let userString = '';
+        if (c && c.user) {
+          userString = '(' + c.user.name + ')';
+        }
+        c.userTag = userString;
+      });
     });
 
     this.lead_id.valueChanges
@@ -157,13 +165,15 @@ export class ChatsComponent implements OnInit, OnDestroy {
 
     });
 
-    this.authService.userSubject.asObservable().subscribe(user => {
-      this.user = user;
-      this.isAdmin = this.user && this.user.admin;
-      if (this.isAdmin) {
-        this.getChatsWithPending();
-      }
-    });
+    if (!this.userAuthSubscription) {
+      this.userAuthSubscription = this.authService.userSubject.asObservable().subscribe(user => {
+        this.user = user;
+        this.isAdmin = this.user && this.user.admin;
+        if (this.isAdmin) {
+          this.getChatsWithPending();
+        }
+      });
+    }
   }
 
   getChatsWithPending() {
@@ -207,11 +217,11 @@ export class ChatsComponent implements OnInit, OnDestroy {
   //     .filter(cwp => (cwp.client_id === this.selectedClient.id && cwp.lead_id === this.selectedLead.id));
   // }
 
-  displayClientFn(client?: Client): string | undefined {
+  displayClientFn(client ?: Client): string | undefined {
     return client ? client.name : undefined;
   }
 
-  displayLeadFn(lead?: Lead): string | undefined {
+  displayLeadFn(lead ?: Lead): string | undefined {
     return lead ? lead.firstName + ' ' + lead.lastName + ' ' + lead.myTags : undefined;
   }
 
@@ -221,7 +231,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
     // console.log('selectedClient: ', this.selectedClient);
     // console.log('selectedLead: ', this.selectedLead);
 
-    if (this.selectedLead && this.selectedLead.client && !this.selectedLead.client.includes(this.selectedClient)) {
+    if (this.selectedLead && this.selectedLead.client && !this.selectedLead.client.includes(this.selectedClient)) {; } {
       this.selectedLead = null;
       this.lead_id.setValue('');
       this.textMsgCtrl.setValue('');
@@ -390,6 +400,9 @@ export class ChatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.userAuthSubscription) {
+      this.userAuthSubscription.unsubscribe();
+    }
     if (this.dialogSub) {
       this.dialogSub.unsubscribe();
     }

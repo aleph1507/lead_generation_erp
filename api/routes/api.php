@@ -78,6 +78,9 @@ Route::post('/register_first', 'Auth\AuthController@register_first')->name('regi
 Route::post('/login', 'Auth\AuthController@login')->name('login');
 
 Route::middleware(['auth:api', 'AdminMiddleware'])->group(function() {
+    Route::post('/clients', 'ClientController@store');
+    Route::post('/clients/update/{client}', 'ClientController@update');
+    Route::delete('/clients/{client}', 'ClientController@destroy');
     Route::post('/user/{user}/edit', 'Auth\AuthController@edit_user')->name('user.edit');
     Route::get('/chats/get-pending-ar', 'ChatController@get_pending_ar');
     Route::get('/clients/trashed', 'ClientController@getTrashed');
@@ -101,9 +104,9 @@ Route::middleware(['auth:api'])->group(function() {
     Route::get('/clients/leads/date/{client}', 'ClientController@getLeadsByDate');
     Route::post('/clients/search', 'ClientController@searchByText');
     Route::get('/clients/{client}', 'ClientController@show');
-    Route::post('/clients', 'ClientController@store');
-    Route::post('/clients/update/{client}', 'ClientController@update');
-    Route::delete('/clients/{client}', 'ClientController@destroy');
+//    Route::post('/clients', 'ClientController@store');
+//    Route::post('/clients/update/{client}', 'ClientController@update');
+//    Route::delete('/clients/{client}', 'ClientController@destroy');
 
     Route::get('/leads', 'LeadController@index');
     Route::post('/leads/csv', 'LeadController@addCSVLeads');

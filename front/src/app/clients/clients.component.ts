@@ -9,6 +9,7 @@ import {DeleteClientComponent} from '../dialogs/single-client/delete-client/dele
 import {SnackbarService} from '../services/snackbar.service';
 import {SNACKBAR} from '../enums/snackbar.enum';
 import {ClientLeadsComponent} from '../dialogs/client-leads/client-leads.component';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-clients',
@@ -30,6 +31,8 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+  displayedColumnsLimited = ['name', 'description', 'no_leads', 'created_at', 'updated_at'];
+
   displayedColumns = ['edit', 'delete', 'name', 'description', 'no_leads', 'created_at', 'updated_at'];
 
   displayedColumnsTrashed = ['restore', 'shred', 'name', 'description', 'no_leads', 'created_at', 'updated_at',
@@ -39,11 +42,15 @@ export class ClientsComponent implements OnInit, OnDestroy {
     private clientsService: ClientService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-   this.columns = this.trashed ? this.displayedColumnsTrashed : this.displayedColumns;
+   this.columns = this.authService.isAdmin() ?
+       (this.trashed ? this.displayedColumnsTrashed : this.displayedColumns) : this.displayedColumnsLimited;
+   // this.columns = this.trashed ? this.displayedColumnsTrashed : this.displayedColumns :
+
    this.getAll();
   }
 

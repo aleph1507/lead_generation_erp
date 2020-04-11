@@ -1,15 +1,12 @@
-import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { LoginResponse } from '../models/LoginResponse';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {ServerConfigService} from './server-config.service';
 import {ServerMessage} from '../models/ServerMessage';
-import {RegistrationResponse} from '../models/RegistrationResponse';
 import {User} from '../models/User';
 import {SnackbarService} from './snackbar.service';
-import {toFormData} from '../utils/formdata';
+import {SNACKBAR} from "../enums/snackbar.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -196,7 +193,10 @@ export class AuthService {
           }
         },
         error => {
-            console.log('logIn()error:', error);
+          if (error.status === 401) {
+            this.snackbarService.openSnackbar('Invalid crednetials', SNACKBAR.DANGER);
+          }
+            // console.log('logIn()error:', error);
         });
 
     // return 0;

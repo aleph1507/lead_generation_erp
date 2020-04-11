@@ -22,5 +22,10 @@ export class ServerConfigService {
     user_shred: this.serverUrl + 'api/user/shred/',
     user_restore: this.serverUrl + 'api/user/restore/'
   };
+
+  public allowed401s = [
+      this.serverUrl + 'api/chats/get-pending-ar/'
+  ];
+
 constructor() { }
 }

@@ -3,13 +3,15 @@ import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse}
 import { Observable } from 'rxjs';
 
 import {AuthService} from '../services/auth.service';
-import {tap} from "rxjs/operators";
-import {Router} from "@angular/router";
+import {tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {ServerConfigService} from '../services/server-config.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private serverConfigService: ServerConfigService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // console.log('jwt interceptor');
@@ -62,9 +64,14 @@ export class JwtInterceptor implements HttpInterceptor {
             if (err.status !== 401) {
               return;
             }
+
+            if (this.serverConfigService.allowed401s.indexOf(request.url) >= 0) {
+              return;
+            }
             // this.router.navigate(['login']);
             this.authService.logOut();
           }
-        }));
+        })
+    );
   }
 }
