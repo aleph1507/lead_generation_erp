@@ -18,9 +18,9 @@ class AddClientLeadForeignKeys extends Migration
 //             $table->foreign('client_id')->references('id')
 //                 ->on('client')->onDelete('set null');
             $table->foreign('client_id')->references('id')
-                ->on('clients')->onDelete('set null');
+                ->on('clients')->onDelete('cascade');
             $table->foreign('lead_id')->references('id')
-                ->on('leads')->onDelete('set null');
+                ->on('leads')->onDelete('cascade');
         });
 
     }

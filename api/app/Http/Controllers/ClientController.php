@@ -118,6 +118,7 @@ class ClientController extends Controller
      * @param Request $request
      * @param Client $client
      * @return ClientResource
+     * @throws ValidationException
      */
     public function update(Request $request, Client $client)
     {
@@ -192,6 +193,10 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
+        foreach($client->leads as $client_lead)
+        {
+            $client_lead->delete();
+        }
         return new ClientResource($client);
     }
 
