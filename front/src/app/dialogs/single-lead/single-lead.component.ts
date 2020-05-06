@@ -8,6 +8,9 @@ import {ClientService} from '../../services/client.service';
 import {Client} from '../../models/Client';
 
 import {ChatsComponent} from '../../chats/chats.component';
+import {LeadStatusAssociative} from "../../utils/LeadStatusAssociative";
+
+
 
 @Component({
   selector: 'app-single-lead',
@@ -32,6 +35,7 @@ export class SingleLeadComponent implements OnInit {
 
   ngOnInit() {
     this.lead = this.data ? (this.data.lead ? this.data.lead : new Lead()) : new Lead();
+    console.log('this.lead: ', this.lead);
     this.leadForm = this.createLeadForm();
     this.client_id.valueChanges
       .pipe(
@@ -101,6 +105,7 @@ export class SingleLeadComponent implements OnInit {
     return new FormGroup({
       duxid: new FormControl(this.lead.duxid),
       client_id: this.client_id,
+      status: new FormControl(this.lead.status),
       visitTime: new FormControl(this.lead.visitTime),
       profile: new FormControl(this.lead.profile),
       picture: new FormControl(this.lead.picture),

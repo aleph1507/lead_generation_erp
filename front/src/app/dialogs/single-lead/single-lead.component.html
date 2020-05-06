@@ -11,7 +11,7 @@
 
     <mat-form-field class="stdDialogInput">
       <input type="text"
-             placeholder="Client" aria-label="Client"
+             placeholder="Change Assigned Client" aria-label="Change Assigned Client"
              matInput [formControl]="client_id" [matAutocomplete]="auto">
 
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -19,6 +19,12 @@
           <span>{{ client.name }}</span>
         </mat-option>
       </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="stdDialogInput">
+      <input matInput
+             placeholder="Status"
+             formControlName="duxid">
     </mat-form-field>
 
     <mat-form-field class="stdDialogInput">
@@ -37,12 +43,6 @@
       <input matInput
              placeholder="Picture"
              formControlName="picture">
-    </mat-form-field>
-
-    <mat-form-field class="stdDialogInput">
-      <input matInput
-             placeholder="Degree"
-             formControlName="degree">
     </mat-form-field>
 
     <mat-form-field class="stdDialogInput">
