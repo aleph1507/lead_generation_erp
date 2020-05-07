@@ -59,6 +59,21 @@ export class LeadsComponent implements OnInit, OnDestroy {
     this.getAll();
   }
 
+  leadStatusAccessor(status) {
+    switch (status) {
+        case 'NOTCONTACTED':
+            return 'Not Yet Contacted';
+        case 'NEUTRAL':
+            return 'In progress';
+        case 'POSITIVE':
+            return 'Lead';
+        case 'NEGATIVE':
+            return 'Not Interested';
+        default:
+            return 'No status';
+    }
+  }
+
   // parseClient(lead: Lead) {
   //   let clientResult = 'N/A';
   //   if (lead.client && lead.client.length) {

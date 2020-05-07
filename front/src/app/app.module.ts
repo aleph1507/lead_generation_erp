@@ -31,6 +31,7 @@ import { UsersComponent } from './users/users.component';
 import { UserComponent } from './dialogs/user/user.component';
 import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
 import { RegisterFormComponent } from './auth/register-form/register-form.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -58,14 +59,15 @@ import { RegisterFormComponent } from './auth/register-form/register-form.compon
     DeleteUserComponent,
     RegisterFormComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatModule,
+        MatSelectModule
+    ],
   providers: [
     ServerConfigService,
     {

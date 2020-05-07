@@ -12,7 +12,7 @@ import {
   MatMenuModule,
   MatSidenavModule, MatSnackBarModule, MatSortModule,
   MatTableModule, MatTabsModule,
-  MatToolbarModule
+  MatToolbarModule, MatSelectModule
 } from '@angular/material';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 

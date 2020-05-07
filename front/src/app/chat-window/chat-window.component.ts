@@ -6,6 +6,12 @@ import {ChatService} from '../services/chat.service';
 import {Message} from '../models/Message';
 import {ChatsPerClient} from '../models/ChatsPerClient';
 import {FormControl, Validators} from '@angular/forms';
+import {AuthService} from "../services/auth.service";
+import {SingleLeadComponent} from "../dialogs/single-lead/single-lead.component";
+import {SNACKBAR} from "../enums/snackbar.enum";
+import {Subscription} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {SnackbarService} from "../services/snackbar.service";
 
 @Component({
   selector: 'app-chat-window',
@@ -26,6 +32,7 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
   private approvedChatItems: Chat[];
   private rejectedChatItems: Chat[];
   private showChatItemsAccordion = false;
+  private dialogSub: Subscription = null;
   // private requests: Chat[] = [];
   // private requests: ChatsPerClient[] = [];
 
@@ -36,7 +43,11 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
   @ViewChild('cc', {static: true}) private chatContainer: ElementRef;
   @ViewChild('textMessageBox', {static: true}) private txtMsg: ElementRef;
 
-  constructor(private chatsService: ChatService) { }
+  constructor(
+      private chatsService: ChatService,
+      private authService: AuthService,
+      private dialog: MatDialog,
+      private snackbarService: SnackbarService) { }
 
   ngOnInit() {
     if (!this.chatItems || this.chatItems.length === 0) {
@@ -63,6 +74,31 @@ export class ChatWindowComponent implements OnInit, AfterViewChecked {
       }
       this.chatsByApproval();
     }
+
+    if (!this.authService.isAdmin() && this.authService.getUser().id !== this.selectedClient.user_id) {
+      console.log('!this.authService.isAdmin() && this.authService.getUser().id !== this.selectedClient.user_id',
+          !this.authService.isAdmin() && this.authService.getUser().id !== this.selectedClient.user.id);
+    }
+  }
+
+  updateProspect() {
+    const dialogRef = this.dialog.open(SingleLeadComponent, {
+      height: '60%',
+      width: '80%',
+      data: {
+        lead: this.selectedLead
+      }
+    });
+
+    this.dialogSub = dialogRef.afterClosed().subscribe(result => {
+      if (result && result.data) {
+          if (result.data.success) {
+            this.snackbarService.openSnackbar('Prospect edited.');
+          } else {
+            this.snackbarService.openSnackbar('There has been a problem editing the prospect.', SNACKBAR.DANGER);
+          }
+      }
+    });
   }
 
   chatsByApproval() {

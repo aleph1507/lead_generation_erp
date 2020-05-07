@@ -6,9 +6,10 @@ import {LeadService} from '../../services/lead.service';
 import {debounceTime, finalize, switchMap, tap} from 'rxjs/operators';
 import {ClientService} from '../../services/client.service';
 import {Client} from '../../models/Client';
+import {MatSelect} from '@angular/material/select';
 
 import {ChatsComponent} from '../../chats/chats.component';
-import {LeadStatusAssociative} from "../../utils/LeadStatusAssociative";
+// import {LeadStatusAssociative} from '../../utils/LeadStatusAssociative';
 
 
 
@@ -25,6 +26,24 @@ export class SingleLeadComponent implements OnInit {
   isLoading: boolean;
   // tslint:disable-next-line:variable-name
   client_id = new FormControl();
+
+  leadStatusAssociative = {
+    NOTCONTACTED: 'Not Yet Contacted',
+    NEUTRAL: 'In progress',
+    POSITIVE: 'Lead',
+    NEGATIVE: 'Not Interested'
+  };
+
+  // case 'NOTCONTACTED':
+//             return 'Not Yet Contacted';
+//         case 'NEUTRAL':
+//             return 'In progress';
+//         case 'POSITIVE':
+//             return 'Lead';
+//         case 'NEGATIVE':
+//             return 'Not Interested';
+//         default:
+//             return 'No status';
 
   constructor(
     public dialogRef: MatDialogRef<SingleLeadComponent>,

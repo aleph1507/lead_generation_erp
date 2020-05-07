@@ -9,22 +9,26 @@
              formControlName="duxid">
     </mat-form-field>
 
-    <mat-form-field class="stdDialogInput">
-      <input type="text"
-             placeholder="Change Assigned Client" aria-label="Change Assigned Client"
-             matInput [formControl]="client_id" [matAutocomplete]="auto">
+<!--    <mat-form-field class="stdDialogInput">-->
+<!--      <input type="text"-->
+<!--             placeholder="Change Assigned Client" aria-label="Change Assigned Client"-->
+<!--             matInput [formControl]="client_id" [matAutocomplete]="auto">-->
 
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let client of clients" [value]="client">
-          <span>{{ client.name }}</span>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+<!--      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">-->
+<!--        <mat-option *ngFor="let client of clients" [value]="client">-->
+<!--          <span>{{ client.name }}</span>-->
+<!--        </mat-option>-->
+<!--      </mat-autocomplete>-->
+<!--    </mat-form-field>-->
 
     <mat-form-field class="stdDialogInput">
-      <input matInput
-             placeholder="Status"
-             formControlName="duxid">
+      <mat-label>Prospect's Status</mat-label>
+      <mat-select
+        formControlName="status"
+        [(value)]="lead.status">
+        <mat-option *ngFor="let leadStatus of leadStatusAssociative | keyvalue"
+          [value]="leadStatus.key">{{leadStatus.value}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field class="stdDialogInput">

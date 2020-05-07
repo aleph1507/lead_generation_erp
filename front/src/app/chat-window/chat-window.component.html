@@ -91,13 +91,24 @@
             [formControl]="textMsgCtrl"></textarea>
       </mat-form-field>
 
-      <div class="chat-form-controls" id="chat-form-controls">
+      <div class="chat-form-controls" id="chat-form-controls"
+           *ngIf="authService.isAdmin() || authService.getUser().id === selectedClient.user.id">
         <div class="flex-full-controls">
-          <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Message')">Save as Message</button>
-          <button mat-raised-button class="mat-primary" (click)="saveTextMsg('Response')">Save as Response</button>
+          <button
+                  mat-raised-button
+                  class="mat-primary"
+                  (click)="saveTextMsg('Message')">Save as Message</button>
+          <button
+                  mat-raised-button
+                  class="mat-primary"
+                  (click)="saveTextMsg('Response')">Save as Response</button>
         </div>
         <div class="w100 single-control centered vertical-margins">
           <button mat-stroked-button class="mat-primary" (click)="saveTextMsg('approvalRequest')">Submit Message for Apporval</button>
+        </div>
+
+        <div class="w100 single-control centered vertical-margins">
+          <button mat-raised-button class="mat-primary" (click)="updateProspect()">Update Prospect Details</button>
         </div>
 
       </div>

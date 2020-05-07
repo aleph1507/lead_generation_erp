@@ -189,6 +189,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
       //   }
       // }
       this.chatsWithPending = data.data;
+      console.log('this.chatsWithPending', this.chatsWithPending);
       // todo:
       // chatsWithPending to display
       // console.log('chatsWithPending: ', this.chatsWithPending);
