@@ -327,6 +327,7 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
+        $lead->chats()->delete();
         $lead->delete();
         return new LeadResource($lead);
     }

@@ -9,6 +9,7 @@ import {AdminComponent} from './admin/admin.component';
 import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {AuthGuardService as AuthGuard} from './guards/auth-guard.service';
+import {ClientsViewComponent} from './clients-view/clients-view.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'chats', component: ChatsComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'admin', component: AdminComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent, pathMatch: 'full'},
-  { path: 'register', component: RegisterComponent, pathMatch: 'full'}
+  { path: 'register', component: RegisterComponent, pathMatch: 'full'},
+  { path: 'view/client/:uuid', component: ClientsViewComponent, pathMatch: 'full'}
 ];
 
 @NgModule({

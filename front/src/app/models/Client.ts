@@ -10,6 +10,7 @@ export class Client implements Deserializable {
   csv_file?: File | null;
   no_leads?: number | null;
   user?: User;
+  uuid: string;
   user_id: number;
   created_at: Date;
   updated_at: Date;

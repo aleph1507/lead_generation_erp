@@ -24,6 +24,10 @@ export class ClientService {
     return this.httpClient.get<{data: Client}>(this.server.endpoints.clients + id);
   }
 
+  getClientPublic(uuid: string): Observable<{data: Client}> {
+    return this.httpClient.get<{data: Client}>(this.server.endpoints.clients + 'public?' + 'uuid=' + uuid);
+  }
+
   storeClient(client: Client): Observable<{data: Client}> {
     const clientFormData = toFormData(client);
     return this.httpClient.post<{data: Client}>(this.server.endpoints.clients, clientFormData);

@@ -57,6 +57,21 @@ class ClientController extends Controller
 //        return $this->get_users_clients($user);
     }
 
+    public function client_public(Request $request)
+    {
+        $this->validate($request, [
+            'uuid' => 'required'
+        ]);
+
+        $uuid = $request->input('uuid');
+
+        $c = Client::where('uuid', $uuid)->first();
+
+//        json_encode($c);
+
+        return new ClientResource($c);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

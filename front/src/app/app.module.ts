@@ -32,6 +32,7 @@ import { UserComponent } from './dialogs/user/user.component';
 import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
 import { RegisterFormComponent } from './auth/register-form/register-form.component';
 import {MatSelectModule} from "@angular/material/select";
+import { ClientsViewComponent } from './clients-view/clients-view.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {MatSelectModule} from "@angular/material/select";
     UsersComponent,
     UserComponent,
     DeleteUserComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    ClientsViewComponent
   ],
     imports: [
         BrowserModule,

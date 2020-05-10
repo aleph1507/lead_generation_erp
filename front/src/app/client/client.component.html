@@ -21,8 +21,14 @@
     </mat-form-field>
   </form>
 
-  <button class="mat-raised-button" (click)="backToClients()">&laquo; Back to clients</button>
-  <button class="mat-raised-button mat-primary" [disabled]="!clientForm.valid" (click)="save()">Save</button>
+  <div>
+    <button class="mat-raised-button" (click)="backToClients()">&laquo; Back to clients</button>
+    <button class="mat-raised-button mat-primary" [disabled]="!clientForm.valid" (click)="save()">Save</button>
+  </div>
+
+  <div>
+    <p><a [routerLink]="['/view/client/' + client.uuid]" target="_blank">Clients view link</a></p>
+  </div>
 
   <mat-accordion *ngIf="leadsBD">
     <mat-expansion-panel *ngFor="let lbd of leadsBD | keyvalue:asInOrder">

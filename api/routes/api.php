@@ -77,6 +77,8 @@ Route::post('/register_first', 'Auth\AuthController@register_first')->name('regi
 //Route::post('/login', 'Auth\LoginController@login');
 Route::post('/login', 'Auth\AuthController@login')->name('login');
 
+Route::get('/clients/public', 'ClientController@client_public');
+
 Route::middleware(['auth:api', 'AdminMiddleware'])->group(function() {
     Route::post('/clients', 'ClientController@store');
     Route::post('/clients/update/{client}', 'ClientController@update');
