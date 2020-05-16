@@ -59,6 +59,8 @@ class ClientController extends Controller
 
     public function client_public(Request $request)
     {
+        $a = $request->all();
+        $i = $request->input();
         $this->validate($request, [
             'uuid' => 'required'
         ]);
