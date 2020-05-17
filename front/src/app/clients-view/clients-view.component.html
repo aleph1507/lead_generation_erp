@@ -1,1 +1,6 @@
 <p>clients-view works!</p>
+<div *ngIf="client">
+    <h1>Stats for {{client.name}}</h1>
+    <p *ngIf="client.leads">Number of clients: {{client.leads.length}}</p>
+
+</div>
