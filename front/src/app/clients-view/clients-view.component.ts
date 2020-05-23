@@ -32,9 +32,10 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
       private clientService: ClientService) { }
 
   parseIndustries() {
+    console.log('parseIndustries');
     if (this.client.leads) {
       this.client.leads.forEach(lead => {
-
+          console.log('lead: ', lead);
       });
     }
   }
@@ -45,7 +46,7 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
       this.clientService.getClientPublic(this.uuid)
           .subscribe(dataClient => {
             this.client = dataClient.data;
-            console.log(this.client);
+            this.parseIndustries();
           });
     });
   }
