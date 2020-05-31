@@ -87,9 +87,12 @@ class ClientController extends Controller
             'user_id' => 'sometimes|exists:users,id'
         ]);
 
+        $data = $request->all();
+        $data['uuid'] = uniqid(time() . '_', true);
+
         $client = $this->storeModel(
             new Client(),
-            $request,
+            $data,
             [
                 'name' => 'required|string|max:255',
                 'description' => 'sometimes',

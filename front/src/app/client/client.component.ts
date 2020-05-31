@@ -61,6 +61,7 @@ export class ClientComponent implements OnInit, OnDestroy {
     }
     this.clientService.getClient(id).subscribe(data => {
       this.client = data.data;
+      console.log('this.client:', this.client);
       this.clientForm = this.createClientForm();
       this.clientService.getClientLeadsByDate(this.client).subscribe(leadsByDate => {
         // this.leadsBD = leadsByDate;
@@ -151,8 +152,9 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   dateKey(d) {
-    const date = new Date(d);
-    return date;
+    // const date = new Date(d);
+    // return date;
+    return new Date(d);
   }
 
   save() {

@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('uuid')->default(uniqid(time() . '_', true));
+            $table->string('uuid')->nullable();
             $table->timestamps();
 
             $table->softDeletes();

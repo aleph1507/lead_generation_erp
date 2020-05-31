@@ -37,7 +37,7 @@ class Client extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'uuid'
     ];
 
     public function leads()

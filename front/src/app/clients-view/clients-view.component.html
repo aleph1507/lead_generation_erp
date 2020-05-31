@@ -1,6 +1,12 @@
 <p>clients-view works!</p>
 <div *ngIf="client">
     <h1>Stats for {{client.name}}</h1>
-    <p *ngIf="client.leads">Number of clients: {{client.leads.length}}</p>
+    <p *ngIf="client.leads">Number of leads: {{client.leads.length}}</p>
+    <div *ngIf="parsed && industries">
+        parsed && industries
 
+        <div *ngFor="let ind of industries | keyvalue">
+            {{ind.value.total}} {{ind.value.name}}
+        </div>
+    </div>
 </div>

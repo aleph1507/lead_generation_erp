@@ -6,6 +6,10 @@ import {Client} from '../models/Client';
 
 class Industry {
   name: string;
+  total = 0;
+  constructor(name = null) {
+    this.name = name;
+  }
   // $table->enum('status', ['NOTCONTACTED', 'NEUTRAL', 'POSITIVE', 'NEGATIVE'])
   count = {
     NOTCONTACTED: 0,
@@ -25,7 +29,9 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
   uuid: string;
   routeSub: Subscription;
   client: Client;
-  industries: Industry[];
+  // industries: Industry[] = [];
+  industries = {key: Industry};
+  parsed = false;
 
   constructor(
       private route: ActivatedRoute,
@@ -35,7 +41,11 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
     console.log('parseIndustries');
     if (this.client.leads) {
       this.client.leads.forEach(lead => {
-          console.log('lead: ', lead);
+        if (!this.industries[lead.industry.toLowerCase()]) {
+          this.industries[lead.industry.toLowerCase()] = new Industry(lead.industry);
+        }
+        this.industries[lead.industry.toLowerCase()].count[lead.status]++;
+        this.industries[lead.industry.toLowerCase()].total++;
       });
     }
   }
@@ -47,6 +57,8 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
           .subscribe(dataClient => {
             this.client = dataClient.data;
             this.parseIndustries();
+            this.parsed = true;
+            console.log('this.industries', this.industries);
           });
     });
   }
