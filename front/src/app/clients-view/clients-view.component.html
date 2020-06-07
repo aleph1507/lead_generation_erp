@@ -6,7 +6,10 @@
         parsed && industries
 
         <div *ngFor="let ind of industries | keyvalue">
-            {{ind.value.total}} {{ind.value.name}}
+            <p>{{ind.value.total}} {{ind.value.name}} {{ind.count}}</p>
+            <div *ngFor="let c of ind.value.count | keyvalue">
+                <p>{{c.key}} - {{c.value}}</p>
+            </div>
         </div>
     </div>
 </div>
