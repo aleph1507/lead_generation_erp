@@ -33,6 +33,7 @@ import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component
 import { RegisterFormComponent } from './auth/register-form/register-form.component';
 import {MatSelectModule} from "@angular/material/select";
 import { ClientsViewComponent } from './clients-view/clients-view.component';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ClientsViewComponent } from './clients-view/clients-view.component';
         HttpClientModule,
         ReactiveFormsModule,
         MatModule,
-        MatSelectModule
+        MatSelectModule,
+        ChartsModule
     ],
   providers: [
     ServerConfigService,

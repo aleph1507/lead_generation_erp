@@ -1,15 +1,23 @@
 <p>clients-view works!</p>
 <div *ngIf="client">
     <h1>Stats for {{client.name}}</h1>
-    <p *ngIf="client.leads">Number of leads: {{client.leads.length}}</p>
-    <div *ngIf="parsed && industries">
-        parsed && industries
+    <canvas *ngIf="showIndustriesChart" baseChart
+            [datasets]="industriesChartData"
+            [labels]="industriesBarChartLabels"
+            [options]="industriesBarChartOptions"
+            [plugins]="industriesChartPlugins"
+            [chartType]="industriesChartType">
+    </canvas>
+<!--    [legend]="industriesChartLegend"-->
+<!--    <p *ngIf="client.leads">Number of leads: {{client.leads.length}}</p>-->
+<!--    <div *ngIf="parsed && industries">-->
+<!--        parsed && industries-->
 
-        <div *ngFor="let ind of industries | keyvalue">
-            <p>{{ind.value.total}} {{ind.value.name}} {{ind.count}}</p>
-            <div *ngFor="let c of ind.value.count | keyvalue">
-                <p>{{c.key}} - {{c.value}}</p>
-            </div>
-        </div>
-    </div>
+<!--        <div *ngFor="let ind of industries | keyvalue">-->
+<!--            <p>{{ind.value.total}} {{ind.value.name}} {{ind.count}}</p>-->
+<!--            <div *ngFor="let c of ind.value.count | keyvalue">-->
+<!--                <p>{{c.key}} - {{c.value}}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
