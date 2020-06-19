@@ -3,8 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ClientService} from '../services/client.service';
 import {Client} from '../models/Client';
-import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
+import {ChartData, ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
+import {Lead} from "../models/Lead";
 
 class Industry {
   name: string;
@@ -34,15 +35,21 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
   // industries: Industry[] = [];
   industries = {key: Industry};
   parsed = false;
-  industriesBarChartOptions: ChartOptions = {
+  industriesChartOptions: ChartOptions = {
     responsive: true
   };
-  industriesBarChartLabels: Label[] = [];
-  industriesChartType: ChartType = 'bar';
-  industriesChartLegend = false;
+  industriesChartLabels: Label[] = [];
+  industriesChartType: ChartType = 'pie';
+  // industriesChartType: ChartType = 'bar';
+  industriesChartLegend = true;
   industriesChartPlugins = [];
-  industriesChartData: ChartDataSets[] = [];
+  // industriesChartData: ChartDataSets[] = [];
+  industriesChartData = [];
   showIndustriesChart = false;
+
+  statusChartLabels: Label[] = [];
+  statusChartData = [];
+  statusChartType: ChartType = 'doughnut';
 
   constructor(
       private route: ActivatedRoute,
@@ -68,7 +75,8 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
           .subscribe(dataClient => {
             this.client = dataClient.data;
             this.parseIndustries();
-            this.setupIndustriesBarCharts();
+            this.setupIndustriesCharts();
+            this.setupStatusCharts();
             this.parsed = true;
             this.showIndustriesChart = true;
             /*
@@ -102,18 +110,28 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  setupIndustriesBarCharts() {
-    const industryKeys = Object.keys(this.industries);
+  setupIndustriesCharts() {
+    console.log('this.industries', this.industries);
+    const industryKeys = Object.keys(this.industries).filter(k => k.toLowerCase() !== 'key'.toLowerCase());
+    // const industryKeys = Object.entries(this.industries).filter(k => k !== 'key');
+    console.log('industryKeys', industryKeys);
     const data = [];
     const label: string[] = [];
     industryKeys.forEach(key => {
-      // this.industriesBarChartLabels.push(this.industries[key].name);
+      if (this.industries[key].name.toLowerCase() !== 'Industry'.toLowerCase()) {
+        this.industriesChartLabels
+            .push(this.industries[key].name);
+      }
+      // console.log('name', this.industries[key].name);
+      // this.industriesChartLabels.push(this.industries[key].name);
       // this.industriesChartData.push(7);
       // @ts-ignore
       // data.push(this.industries[key].total);
       // label.push(this.industries[key].name);
 
-      this.industriesChartData.push({data: [this.industries[key].total], label: this.industries[key].name});
+      // this.industriesChartData.push({data: [this.industries[key].total], label: this.industries[key].name});
+      // this.industriesChartData.push({data: [this.industries[key].total], label: this.industries[key].name});
+      this.industriesChartData.push(this.industries[key].total);
     // public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
     // public barChartType: ChartType = 'bar';
     // public barChartLegend = true;
@@ -124,7 +142,53 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
     //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
     //   ];
     });
+    console.log('this.industriesChartLabels', this.industriesChartLabels);
+    // console.log('this.industriesChartLabels[0].toLowerCase() === this.industriesChartLabels[0].toLowerCase()',
+    //     this.industriesChartLabels[0].toLowerCase() === this.industriesChartLabels[0].toLowerCase());
     // this.industriesChartData.push({data, label});
+  }
+
+  setupStatusCharts() {
+    console.log('this.industries', this.industries);
+    console.log('this.client', this.client);
+    this.statusChartLabels = [
+        'Not Yet Contacted',
+        'In progress',
+        'Not Interested',
+        'Lead'
+    ];
+    // const notContacted = [];
+    // const inProgress = [];
+    // const notInterested = [];
+    // const lead = [];
+    let notContacted = 0;
+    let inProgress = 0;
+    let notInterested = 0;
+    let lead = 0;
+    // Not Yet Contacted NOTCONTACTED
+    // In progress NEUTRAL
+    // Not Interested NEGATIVE
+    // Lead POSITIVE
+    this.client.leads.forEach((l: Lead) => {
+      switch (l.status) {
+        case 'NOTCONTACTED':
+          notContacted++;
+          break;
+        case 'NEUTRAL':
+          inProgress++;
+          break;
+        case 'NEGATIVE':
+          notInterested++;
+          break;
+        case 'POSITIVE':
+          lead++;
+          break;
+        default:
+          break;
+      }
+    });
+    this.statusChartData = [notContacted, inProgress,
+      notInterested, lead];
   }
 
   ngOnDestroy(): void {

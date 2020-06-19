@@ -1,13 +1,32 @@
-<p>clients-view works!</p>
 <div *ngIf="client">
     <h1>Stats for {{client.name}}</h1>
-    <canvas *ngIf="showIndustriesChart" baseChart
-            [datasets]="industriesChartData"
-            [labels]="industriesBarChartLabels"
-            [options]="industriesBarChartOptions"
-            [plugins]="industriesChartPlugins"
-            [chartType]="industriesChartType">
-    </canvas>
+<!--    [plugins]="industriesChartPlugins"-->
+<!--    [options]="industriesChartOptions"-->
+<!--    [datasets]="industriesChartData"-->
+    <div class="base-charts">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="industries-chart">
+                    <canvas *ngIf="showIndustriesChart" baseChart
+                            [data]="industriesChartData"
+                            [labels]="industriesChartLabels"
+                            [chartType]="industriesChartType">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="status-chart md-50">
+                    <canvas baseChart
+                        [data]="statusChartData"
+                        [labels]="statusChartLabels"
+                        [chartType]="statusChartType">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!--    [legend]="industriesChartLegend"-->
 <!--    <p *ngIf="client.leads">Number of leads: {{client.leads.length}}</p>-->
 <!--    <div *ngIf="parsed && industries">-->
