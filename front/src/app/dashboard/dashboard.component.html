@@ -1,5 +1,31 @@
-<p>dashboard works!</p>
 
+<div class="dash-buttons">
+    <button mat-raised-button
+            color="primary"
+            [routerLink]="['/clients']">
+        <mat-icon>people</mat-icon>Clients
+    </button>
 
-<app-chats></app-chats>
-<p>clients: {{ clients }}</p>
+    <!--class="sidenav-btn"-->
+
+    <button mat-raised-button
+            color="primary"
+            [routerLink]="['/leads']">
+        <mat-icon>play_for_work</mat-icon>Prospects
+    </button>
+
+    <button mat-raised-button
+            color="primary"
+            [routerLink]="['/chats']">
+        <mat-icon>chat</mat-icon>Chats
+    </button>
+
+    <!--class="sidenav-btn top-margin-0"-->
+
+</div>
+
+<div class="admin-buttons" *ngIf="isAdmin">
+    <button mat-raised-button
+            [routerLink]="['/admin']"
+    >Admin</button>
+</div>

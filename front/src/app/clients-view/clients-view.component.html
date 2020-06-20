@@ -4,28 +4,57 @@
 <!--    [options]="industriesChartOptions"-->
 <!--    [datasets]="industriesChartData"-->
     <div class="base-charts">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="industries-chart">
-                    <canvas *ngIf="showIndustriesChart" baseChart
-                            [data]="industriesChartData"
-                            [labels]="industriesChartLabels"
-                            [chartType]="industriesChartType">
-                    </canvas>
-                </div>
-            </div>
+        <div class="industries-chart">
+            <canvas *ngIf="showIndustriesChart" baseChart
+                    [data]="industriesChartData"
+                    [labels]="industriesChartLabels"
+                    [chartType]="industriesChartType">
+            </canvas>
+        </div>
 
-            <div class="col-md-6 col-sm-12">
-                <div class="status-chart md-50">
-                    <canvas baseChart
-                        [data]="statusChartData"
-                        [labels]="statusChartLabels"
-                        [chartType]="statusChartType">
-                    </canvas>
-                </div>
-            </div>
+        <div class="status-chart">
+            <canvas baseChart
+                [data]="statusChartData"
+                [labels]="statusChartLabels"
+                [chartType]="statusChartType">
+            </canvas>
         </div>
     </div>
+
+    <div class="base-text">
+        <div class="chart-textual">
+            <p>
+                Prospects have listed {{industriesCount}} different industries as their primary field of work, namely:
+            </p>
+<!--            <ul>-->
+                <mat-accordion class="accordion-headers-align" multi>
+                    <mat-expansion-panel *ngFor="let ik of industryKeys">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{ industries[ik].name }}</mat-panel-title>
+                            <mat-panel-description>{{industries[ik].total}} prospects total</mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="industry-status">
+                            <p>Yet to be contacted: {{industries[ik].count['NOTCONTACTED']}}</p>
+                            <p>In progress: {{industries[ik].count['NEUTRAL']}}</p>
+                            <p>Not interested: {{industries[ik].count['NEGATIVE']}}</p>
+                            <p>Leads: {{industries[ik].count['POSITIVE']}}</p>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+<!--                <li *ngFor="let ik of industryKeys">-->
+<!--                    <p>{{ industries[ik].name }} yields {{industries[ik].total}}</p>-->
+<!--                    <div class="industry-status">-->
+<!--                        <p>Yet to be contacted: {{industries[ik].count['NOTCONTACTED']}}</p>-->
+<!--                        <p>In progress: {{industries[ik].count['NEUTRAL']}}</p>-->
+<!--                        <p>Not interested: {{industries[ik].count['NEGATIVE']}}</p>-->
+<!--                        <p>Leads: {{industries[ik].count['POSITIVE']}}</p>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+        </div>
+    </div>
+
 
 <!--    [legend]="industriesChartLegend"-->
 <!--    <p *ngIf="client.leads">Number of leads: {{client.leads.length}}</p>-->

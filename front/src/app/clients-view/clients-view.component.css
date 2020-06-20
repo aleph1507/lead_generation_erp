@@ -1,0 +1,31 @@
+.base-charts > div {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+@media screen and (min-width: 768px) {
+  .base-charts > div {
+    display: inline-block;
+    width: 50%;
+  }
+}
+.base-text {
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+}
+.accordion-action-buttons {
+  padding-bottom: 20px;
+}
+.accordion-headers-align .mat-expansion-panel-header-title,
+.accordion-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+.accordion-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+.accordion-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+/*# sourceMappingURL=clients-view.component.css.map */

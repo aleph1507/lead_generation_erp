@@ -1,0 +1,1 @@
+{"version":3,"sources":["clients-view.component.less"],"names":[],"mappings":"AAAA,YAAa;EACX,cAAA;EACA,WAAA;EACA,gBAAA;EACA,mBAAA;;AACA,mBAAqC;EAArC,YALW;IAMT,qBAAA;IACA,UAAA;;;AAIJ;EACE,gBAAA;EACA,mBAAA;;AAWF;EACE,oBAAA;;AAGF,wBAAyB;AACzB,wBAAyB;EACvB,aAAA;;AAGF,wBAAyB;EACvB,8BAAA;EACA,mBAAA;;AAGF,wBAAyB,gBAAgB;EACvC,gBAAA","file":"clients-view.component.css"}

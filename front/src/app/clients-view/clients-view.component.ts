@@ -5,7 +5,8 @@ import {ClientService} from '../services/client.service';
 import {Client} from '../models/Client';
 import {ChartData, ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
-import {Lead} from "../models/Lead";
+import {Lead} from '../models/Lead';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 class Industry {
   name: string;
@@ -46,6 +47,9 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
   // industriesChartData: ChartDataSets[] = [];
   industriesChartData = [];
   showIndustriesChart = false;
+  industriesCount = 0;
+  industryKeys = [];
+  industriesSummary = {};
 
   statusChartLabels: Label[] = [];
   statusChartData = [];
@@ -112,15 +116,18 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
 
   setupIndustriesCharts() {
     console.log('this.industries', this.industries);
-    const industryKeys = Object.keys(this.industries).filter(k => k.toLowerCase() !== 'key'.toLowerCase());
+    this.industriesCount = Object.keys(this.industries).length;
+    this.industryKeys = Object.keys(this.industries).filter(k => k.toLowerCase() !== 'key'.toLowerCase());
     // const industryKeys = Object.entries(this.industries).filter(k => k !== 'key');
-    console.log('industryKeys', industryKeys);
+    console.log('industryKeys', this.industryKeys);
     const data = [];
     const label: string[] = [];
-    industryKeys.forEach(key => {
+    this.industryKeys.forEach(key => {
       if (this.industries[key].name.toLowerCase() !== 'Industry'.toLowerCase()) {
         this.industriesChartLabels
             .push(this.industries[key].name);
+
+        // this.industriesSummary[this.] = (this.industries[key].total);
       }
       // console.log('name', this.industries[key].name);
       // this.industriesChartLabels.push(this.industries[key].name);
@@ -132,15 +139,6 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
       // this.industriesChartData.push({data: [this.industries[key].total], label: this.industries[key].name});
       // this.industriesChartData.push({data: [this.industries[key].total], label: this.industries[key].name});
       this.industriesChartData.push(this.industries[key].total);
-    // public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    // public barChartType: ChartType = 'bar';
-    // public barChartLegend = true;
-    // public barChartPlugins = [];
-    //
-    // public barChartData: ChartDataSets[] = [
-    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-    //   ];
     });
     console.log('this.industriesChartLabels', this.industriesChartLabels);
     // console.log('this.industriesChartLabels[0].toLowerCase() === this.industriesChartLabels[0].toLowerCase()',

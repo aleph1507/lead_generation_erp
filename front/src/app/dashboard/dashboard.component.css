@@ -1,0 +1,13 @@
+.dash-buttons,
+.admin-buttons {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  margin: 0 2rem;
+}
+.dash-buttons button,
+.admin-buttons button {
+  width: 25%;
+  height: 3rem;
+}
+/*# sourceMappingURL=dashboard.component.css.map */
