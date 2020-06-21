@@ -72,7 +72,7 @@ class LeadController extends Controller
 
         $leads = Lead::query();
 
-        $req_query = $request->get('query');
+        $req_query = $request->get('query') ?? '';
 
 //        if ($client_id = $request->get('client'))
 //        {
@@ -171,7 +171,8 @@ class LeadController extends Controller
         }
         else
         {
-            if ($req_query != '')
+//            if ($req_query != '')
+            if ($req_query !== null)
             {
                 $leads = Lead::where([['duxid', '!=', null], ['duxid', '!=', ''], ['duxid', '!=', ' '], ['duxid', 'like', '%' . $req_query . '%']])
                     ->orWhere([['profile', '!=', null], ['profile', '!=', ''], ['profile', '!=', ' '], ['profile', 'like', '%' . $req_query . '%']])

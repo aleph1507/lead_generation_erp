@@ -26,6 +26,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
   private elevateClass: boolean[] = [];
   private hovering = false;
   private columns = [];
+  private mainSpinner = true;
   // private client: Client = null;
   // private snackBarRef = null;
 
@@ -64,6 +65,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
   }
 
   getAll() {
+    this.mainSpinner = true;
     const obsFn = this.trashed ? this.clientsService.getTrashed() : this.clientsService.getClients();
     // this.clientsService.getClients().subscribe(result => {
     obsFn.subscribe(result => {
@@ -71,6 +73,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
       catchError(this.handleError);
       this.clientsDataSource.data = this.clients;
       this.clientsDataSource.sort = this.sort;
+      this.mainSpinner = false;
     });
   }
 

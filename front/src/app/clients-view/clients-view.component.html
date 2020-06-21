@@ -1,4 +1,8 @@
-<div *ngIf="client">
+<div class="spinner-container-centered" *ngIf="mainSpinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="client && !mainSpinner">
     <h1>Stats for {{client.name}}</h1>
 <!--    [plugins]="industriesChartPlugins"-->
 <!--    [options]="industriesChartOptions"-->

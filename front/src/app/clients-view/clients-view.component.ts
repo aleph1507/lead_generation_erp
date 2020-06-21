@@ -11,6 +11,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 class Industry {
   name: string;
   total = 0;
+
   constructor(name = null) {
     this.name = name;
   }
@@ -55,6 +56,8 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
   statusChartData = [];
   statusChartType: ChartType = 'doughnut';
 
+  mainSpinner = true;
+
   constructor(
       private route: ActivatedRoute,
       private clientService: ClientService) { }
@@ -73,6 +76,7 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.mainSpinner = true;
     this.routeSub = this.route.params.subscribe(params => {
       this.uuid = params.uuid;
       this.clientService.getClientPublic(this.uuid)
@@ -83,6 +87,7 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
             this.setupStatusCharts();
             this.parsed = true;
             this.showIndustriesChart = true;
+            this.mainSpinner = false;
             /*
                 this.industries =
                 key - lowercase name {

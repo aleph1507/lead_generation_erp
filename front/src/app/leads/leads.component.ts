@@ -25,6 +25,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
   private dialogSub: Subscription = null;
   private CSVUploadSub: Subscription;
   private columns = [];
+  mainSpinner = true;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -102,6 +103,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
   }
 
   getAll() {
+    this.mainSpinner = true;
     const obsFn = this.trashed ? this.leadService.getTrashed() : this.leadService.getLeads();
     // this.leadService.getLeads().subscribe(result => {
     obsFn.subscribe(result => {
@@ -113,7 +115,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
       catchError(this.handleError);
       this.leadsDataSource.data = this.leads;
       this.leadsDataSource.sort = this.sort;
-
+      this.mainSpinner = false;
 
       // this.leadsDataSource.filterPredicate = (data, filter: string)  => {
       //   const accumulator = (currentTerm, key) => {

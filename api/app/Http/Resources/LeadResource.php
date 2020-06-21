@@ -48,6 +48,7 @@ class LeadResource extends JsonResource
             'myTags' => $this->myTags ?: null,
             'myNotes' => $this->myNotes ?: null,
             'status' => $this->status ?: null,
+//            'client' => count($this->clients) == 1 ? new ClientResource($this->clients) : ClientResource::collection($this->clients) ?: null,
             'client' => ClientResource::collection($this->clients) ?: null,
             'created_at' => $this->created_at->toDateString() ?: null,
             'updated_at' => $this->updated_at->toDateString()  ?: null

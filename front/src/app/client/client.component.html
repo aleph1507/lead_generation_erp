@@ -1,56 +1,61 @@
-<h2 *ngIf="clientForm">{{client.name}}</h2>
+<div class="spinner-container-centered" *ngIf="mainSpinner">
+  <mat-spinner></mat-spinner>
+</div>
 
-<div *ngIf="clientForm">
+<div class="client-screen" *ngIf="!mainSpinner">
+  <h2 *ngIf="clientForm">{{client.name}}</h2>
 
-  <form [formGroup]="clientForm" #cForm (ngSubmit)="save()">
-    <mat-form-field class="stdDialogInput">
-      <input matInput
-             placeholder="Client's Name"
-             formControlName="name">
-    </mat-form-field>
+  <div *ngIf="clientForm">
 
-    <mat-form-field class="stdDialogInput">
+    <form [formGroup]="clientForm" #cForm (ngSubmit)="save()">
+      <mat-form-field class="stdDialogInput">
+        <input matInput
+               placeholder="Client's Name"
+               formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="stdDialogInput">
     <textarea matInput
               placeholder="Description"
               formControlName="description"></textarea>
-    </mat-form-field>
+      </mat-form-field>
 
-    <mat-form-field class="stdDialogInput">
-      <ngx-mat-file-input formControlName="csv_file" placeholder="Prospects CSV" [accept]="'.csv'"></ngx-mat-file-input>
-      <mat-icon matSuffix>folder</mat-icon>
-    </mat-form-field>
-  </form>
+      <mat-form-field class="stdDialogInput">
+        <ngx-mat-file-input formControlName="csv_file" placeholder="Prospects CSV" [accept]="'.csv'"></ngx-mat-file-input>
+        <mat-icon matSuffix>folder</mat-icon>
+      </mat-form-field>
+    </form>
 
-  <div>
-    <button class="mat-raised-button" (click)="backToClients()">&laquo; Back to clients</button>
-    <button class="mat-raised-button mat-primary" [disabled]="!clientForm.valid" (click)="save()">Save</button>
-  </div>
+    <div>
+      <button class="mat-raised-button" (click)="backToClients()">&laquo; Back to clients</button>
+      <button class="mat-raised-button mat-primary" [disabled]="!clientForm.valid" (click)="save()">Save</button>
+    </div>
 
-  <div>
-    <p><a [routerLink]="['/view/client/' + client.uuid]" target="_blank">Clients view link</a></p>
-  </div>
+    <div>
+      <p><a [routerLink]="['/view/client/' + client.uuid]" target="_blank">Clients view link</a></p>
+    </div>
 
-  <mat-accordion *ngIf="leadsBD">
-    <mat-expansion-panel *ngFor="let lbd of leadsBD | keyvalue:asInOrder">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{lbd.key}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{lbd.value.length}} prospects added
-        </mat-panel-description>
-      </mat-expansion-panel-header>
+    <mat-accordion *ngIf="leadsBD">
+      <mat-expansion-panel *ngFor="let lbd of leadsBD | keyvalue:asInOrder">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{lbd.key}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{lbd.value.length}} prospects added
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-      <table>
-        <thead>
+        <table>
+          <thead>
           <th class="sm-column">Messages</th>
           <th class="sm-column">Edit</th>
           <th class="md-column">Name</th>
           <th class="md-column">Company</th>
           <th class="sm-column">Status</th>
           <th class="sm-column">Delete</th>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr *ngFor="let prospect of lbd.value">
             <td class="sm-column link">
               <mat-icon matListIcon
@@ -80,28 +85,26 @@
               >delete_outline</mat-icon>
             </td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
-<!--      <mat-expansion-panel *ngFor="let chat of chatsWithPending">-->
-<!--        <mat-expansion-panel-header>-->
-<!--          <mat-panel-title>-->
-<!--            {{chat.client.name}} <mat-icon class="sm" color="primary">message</mat-icon> {{chat.lead.firstName}} {{chat.lead.lastName}}-->
-<!--          </mat-panel-title>-->
-<!--        </mat-expansion-panel-header>-->
-<!--        <div class="expansion-pane-chat-container">-->
-<!--          <app-chat-window *ngIf="chat.client && chat.lead"-->
-<!--                           [selectedClient]="chat.client"-->
-<!--                           [selectedLead]="chat.lead"-->
-<!--                           [getARs]="true"-->
-<!--                           [chatPending]="chat"-->
-<!--                           class="chat-window stdDialogInput w100"></app-chat-window>-->
-<!--        </div>-->
-<!--      </mat-expansion-panel>-->
+        <!--      <mat-expansion-panel *ngFor="let chat of chatsWithPending">-->
+        <!--        <mat-expansion-panel-header>-->
+        <!--          <mat-panel-title>-->
+        <!--            {{chat.client.name}} <mat-icon class="sm" color="primary">message</mat-icon> {{chat.lead.firstName}} {{chat.lead.lastName}}-->
+        <!--          </mat-panel-title>-->
+        <!--        </mat-expansion-panel-header>-->
+        <!--        <div class="expansion-pane-chat-container">-->
+        <!--          <app-chat-window *ngIf="chat.client && chat.lead"-->
+        <!--                           [selectedClient]="chat.client"-->
+        <!--                           [selectedLead]="chat.lead"-->
+        <!--                           [getARs]="true"-->
+        <!--                           [chatPending]="chat"-->
+        <!--                           class="chat-window stdDialogInput w100"></app-chat-window>-->
+        <!--        </div>-->
+        <!--      </mat-expansion-panel>-->
 
-    </mat-expansion-panel>
-  </mat-accordion>
-
-
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>
-

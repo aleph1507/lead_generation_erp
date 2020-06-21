@@ -10,4 +10,9 @@
   width: 25%;
   height: 3rem;
 }
+.admin-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
 /*# sourceMappingURL=dashboard.component.css.map */

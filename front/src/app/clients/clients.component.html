@@ -1,118 +1,124 @@
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
-
-<div *ngIf="!trashed" class="model-actions right-align">
-  <button class="mat-raised-button mat-primary" (click)="openDialog($event)">New Client</button>
+<div class="spinner-container-centered" *ngIf="mainSpinner">
+  <mat-spinner></mat-spinner>
 </div>
 
-<table mat-table matSort [dataSource]="clientsDataSource" #table class="mat-elevation-z8">
+<div class="clients-screen" *ngIf="!mainSpinner">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-    <td mat-cell *matCellDef="let client"> {{client.name}} </td>
-  </ng-container>
+  <div *ngIf="!trashed" class="model-actions right-align">
+    <button class="mat-raised-button mat-primary" (click)="openDialog($event)">New Client</button>
+  </div>
 
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Desc </th>
-    <td mat-cell *matCellDef="let client"> {{client.description}} </td>
-  </ng-container>
+  <table mat-table matSort [dataSource]="clientsDataSource" #table class="mat-elevation-z8">
 
-  <ng-container matColumnDef="no_leads">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. Leads </th>
-    <td mat-cell *matCellDef="let client">
-<!--      <span-->
-<!--        *ngIf="displayNoLists(client.no_leads) !== noProspectsMsg"-->
-<!--        (click)="openLeadsDialog(client)"-->
-<!--        class="link-span">-->
-<!--        {{displayNoLists(client.no_leads)}} prospects-->
-<!--      </span>-->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let client"> {{client.name}} </td>
+    </ng-container>
 
-      <span
-        *ngIf="client.no_leads && client.no_leads > 0"
-        (click)="openLeadsDialog($event, client)"
-        class="link-span">
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Desc </th>
+      <td mat-cell *matCellDef="let client"> {{client.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="no_leads">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. Leads </th>
+      <td mat-cell *matCellDef="let client">
+        <!--      <span-->
+        <!--        *ngIf="displayNoLists(client.no_leads) !== noProspectsMsg"-->
+        <!--        (click)="openLeadsDialog(client)"-->
+        <!--        class="link-span">-->
+        <!--        {{displayNoLists(client.no_leads)}} prospects-->
+        <!--      </span>-->
+
+        <span
+                *ngIf="client.no_leads && client.no_leads > 0"
+                (click)="openLeadsDialog($event, client)"
+                class="link-span">
         {{(client.no_leads && client.no_leads > 0) ? client.no_leads + ' prospects' : 'No Prospects'}}
       </span>
 
-<!--      <span-->
-<!--        *ngIf="displayNoLists(client) !== noProspectsMsg"-->
-<!--        (click)="openLeadsDialog(client)"-->
-<!--        class="link-span">-->
-<!--        {{displayNoLists(client)}} prospects-->
-<!--      </span>-->
+        <!--      <span-->
+        <!--        *ngIf="displayNoLists(client) !== noProspectsMsg"-->
+        <!--        (click)="openLeadsDialog(client)"-->
+        <!--        class="link-span">-->
+        <!--        {{displayNoLists(client)}} prospects-->
+        <!--      </span>-->
 
-<!--      <span *ngIf="displayNoLists(client.no_leads) === noProspectsMsg">-->
-<!--        {{noProspectsMsg}}-->
-<!--      </span>-->
-    </td>
-  </ng-container>
+        <!--      <span *ngIf="displayNoLists(client.no_leads) === noProspectsMsg">-->
+        <!--        {{noProspectsMsg}}-->
+        <!--      </span>-->
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="created_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Created at </th>
-    <td mat-cell *matCellDef="let client"> {{client.created_at}} </td>
-  </ng-container>
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Created at </th>
+      <td mat-cell *matCellDef="let client"> {{client.created_at}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="updated_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
-    <td mat-cell *matCellDef="let client"> {{client.updated_at}} </td>
-  </ng-container>
+    <ng-container matColumnDef="updated_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
+      <td mat-cell *matCellDef="let client"> {{client.updated_at}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="deleted_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Trashed At </th>
-    <td mat-cell *matCellDef="let client"> {{splitReturnFirst(client.updated_at, 'T')}} </td>
-  </ng-container>
+    <ng-container matColumnDef="deleted_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Trashed At </th>
+      <td mat-cell *matCellDef="let client"> {{splitReturnFirst(client.updated_at, 'T')}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="restore">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Restore </th>
-    <td mat-cell *matCellDef="let client">
-      <mat-icon matListIcon
-                (click)="restoreClient($event, client)"
-                class="icon-control"
-      >restore_from_trash</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="restore">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Restore </th>
+      <td mat-cell *matCellDef="let client">
+        <mat-icon matListIcon
+                  (click)="restoreClient($event, client)"
+                  class="icon-control"
+        >restore_from_trash</mat-icon>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="edit">
-    <th mat-header-cell *matHeaderCellDef> Edit </th>
-    <td mat-cell *matCellDef="let client">
-      <mat-icon matListIcon
-                (click)="openDialog($event, client)"
-                class="icon-control"
-      >border_color</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> Edit </th>
+      <td mat-cell *matCellDef="let client">
+        <mat-icon matListIcon
+                  (click)="openDialog($event, client)"
+                  class="icon-control"
+        >border_color</mat-icon>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef> Delete </th>
-    <td mat-cell *matCellDef="let client">
-      <mat-icon matListIcon
-                (click)="deleteDialog($event, client)"
-                class="icon-control"
-      >delete_outline</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let client">
+        <mat-icon matListIcon
+                  (click)="deleteDialog($event, client)"
+                  class="icon-control"
+        >delete_outline</mat-icon>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="shred">
-    <th mat-header-cell *matHeaderCellDef> Delete Permanently </th>
-    <td mat-cell *matCellDef="let client">
-      <mat-icon matListIcon
-                (click)="shred($event, client)"
-                class="icon-control"
-      >delete</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="shred">
+      <th mat-header-cell *matHeaderCellDef> Delete Permanently </th>
+      <td mat-cell *matCellDef="let client">
+        <mat-icon matListIcon
+                  (click)="shred($event, client)"
+                  class="icon-control"
+        >delete</mat-icon>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columns"></tr>
-<!--  (mouseover)="$(event.target).find('tr').classList.add('mat-elevation-z8')"-->
-<!--  (mouseover)="$event.target.classList.add('mat-elevation-z8')"-->
-<!--  (mouseout)="$(event.target).find('tr').classList.add('mat-elevation-z8')"-->
-<!--  [routerLink]="row.id"-->
-<!--  (click)="navigateTo(row)"-->
-  <tr mat-row *matRowDef="let row; columns: columns; let i = index;"
-      [routerLink]="'/clients/' + row.id"
-      style="cursor:pointer;"
-  ></tr>
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <!--  (mouseover)="$(event.target).find('tr').classList.add('mat-elevation-z8')"-->
+    <!--  (mouseover)="$event.target.classList.add('mat-elevation-z8')"-->
+    <!--  (mouseout)="$(event.target).find('tr').classList.add('mat-elevation-z8')"-->
+    <!--  [routerLink]="row.id"-->
+    <!--  (click)="navigateTo(row)"-->
+    <tr mat-row *matRowDef="let row; columns: columns; let i = index;"
+        [routerLink]="'/clients/' + row.id"
+        style="cursor:pointer;"
+    ></tr>
 
-<!--  [ngClass]="elevateClass[i] ? elevateClass[i] : ''"-->
-</table>
+    <!--  [ngClass]="elevateClass[i] ? elevateClass[i] : ''"-->
+  </table>
+</div>

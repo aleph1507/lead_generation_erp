@@ -1,217 +1,223 @@
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
-
-<div *ngIf="!trashed" class="model-actions right-align">
-<!--  <button class="mat-raised-button mat-primary">Prospects By Client</button>-->
-  <button class="mat-raised-button mat-primary" (click)="openCSVDialog()">Add Prospects CSV</button>
-  <button class="mat-raised-button mat-primary" (click)="openDialog()">New Prospect</button>
+<div class="spinner-container-centered" *ngIf="mainSpinner">
+  <mat-spinner></mat-spinner>
 </div>
 
-<mat-table matSort [dataSource]="leadsDataSource" #table class="mat-elevation-z8 wide-mat-cell-table">
+<div class="leads-screen" *ngIf="!mainSpinner">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
 
-  <ng-container matColumnDef="duxid" style="width:15rem;">
-    <th mat-header-cell class="wide-mat-cell" *matHeaderCellDef mat-sort-header> DUX ID </th>
-    <td mat-cell class="wide-mat-cell" *matCellDef="let lead"> {{lead.duxid}} </td>
-  </ng-container>
+  <div *ngIf="!trashed" class="model-actions right-align">
+    <!--  <button class="mat-raised-button mat-primary">Prospects By Client</button>-->
+    <button class="mat-raised-button mat-primary" (click)="openCSVDialog()">Add Prospects CSV</button>
+    <button class="mat-raised-button mat-primary" (click)="openDialog()">New Prospect</button>
+  </div>
 
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-    <td mat-cell *matCellDef="let lead"> {{leadStatusAccessor(lead.status)}} </td>
-  </ng-container>
+  <mat-table matSort [dataSource]="leadsDataSource" #table class="mat-elevation-z8 wide-mat-cell-table">
 
-  <ng-container matColumnDef="client" >
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
-<!--    <td mat-cell *matCellDef="let lead"> {{parseClient(lead)}} </td>-->
-    <td mat-cell *matCellDef="let lead"> {{lead.parsedClients}} </td>
-  </ng-container>
+    <ng-container matColumnDef="duxid" style="width:15rem;">
+      <th mat-header-cell class="wide-mat-cell" *matHeaderCellDef mat-sort-header> DUX ID </th>
+      <td mat-cell class="wide-mat-cell" *matCellDef="let lead"> {{lead.duxid}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="visitTime">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Visit Time </th>
-    <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.visitTime, ' ')}} </td>
-  </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+      <td mat-cell *matCellDef="let lead"> {{leadStatusAccessor(lead.status)}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="profile">
-    <th mat-header-cell *matHeaderCellDef> Profile </th>
-    <td mat-cell *matCellDef="let lead">
-      <a *ngIf="lead.profile && lead.profile.trim() != ''"  target="_blank" href="{{lead.profile}}">
-        Linkedin <mat-icon matIconList class="icon-control">link</mat-icon>
-      </a>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="client" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+      <!--    <td mat-cell *matCellDef="let lead"> {{parseClient(lead)}} </td>-->
+      <td mat-cell *matCellDef="let lead"> {{lead.parsedClients}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="picture">
-    <th mat-header-cell *matHeaderCellDef> Picture </th>
-    <td mat-cell *matCellDef="let lead">
-      <img data-src="{{lead.picture}}" class="table-img" alt="N/A">
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="visitTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Visit Time </th>
+      <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.visitTime, ' ')}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="degree">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Degree </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.degree}} </td>
-  </ng-container>
+    <ng-container matColumnDef="profile">
+      <th mat-header-cell *matHeaderCellDef> Profile </th>
+      <td mat-cell *matCellDef="let lead">
+        <a *ngIf="lead.profile && lead.profile.trim() != ''"  target="_blank" href="{{lead.profile}}">
+          Linkedin <mat-icon matIconList class="icon-control">link</mat-icon>
+        </a>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="firstName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.firstName}} </td>
-  </ng-container>
+    <ng-container matColumnDef="picture">
+      <th mat-header-cell *matHeaderCellDef> Picture </th>
+      <td mat-cell *matCellDef="let lead">
+        <img data-src="{{lead.picture}}" class="table-img" alt="N/A">
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="middleName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Middle Name </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.middleName}} </td>
-  </ng-container>
+    <ng-container matColumnDef="degree">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Degree </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.degree}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.firstName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="middleName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Middle Name </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.middleName}} </td>
+    </ng-container>
 
 
-  <ng-container matColumnDef="lastName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.lastName}} </td>
-  </ng-container>
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.lastName}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="summary">
-    <th mat-header-cell *matHeaderCellDef> Summary </th>
-    <td mat-cell *matCellDef="let lead"> {{ellipses(lead.summary)}} </td>
-  </ng-container>
+    <ng-container matColumnDef="summary">
+      <th mat-header-cell *matHeaderCellDef> Summary </th>
+      <td mat-cell *matCellDef="let lead"> {{ellipses(lead.summary)}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-    <td mat-cell *matCellDef="let lead"> {{ellipses(lead.title)}} </td>
-  </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+      <td mat-cell *matCellDef="let lead"> {{ellipses(lead.title)}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="from">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.from}} </td>
-  </ng-container>
+    <ng-container matColumnDef="from">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.from}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="company">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Company </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.company}} </td>
-  </ng-container>
+    <ng-container matColumnDef="company">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Company </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.company}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="companyProfile">
-    <th mat-header-cell *matHeaderCellDef> Company Profile </th>
-    <td mat-cell *matCellDef="let lead">
+    <ng-container matColumnDef="companyProfile">
+      <th mat-header-cell *matHeaderCellDef> Company Profile </th>
+      <td mat-cell *matCellDef="let lead">
 
-      <a *ngIf="lead.companyProfile && lead.companyProfile.trim() != ''" target="_blank" href="{{lead.companyProfile}}">
-        Company<br>Linkedin<br><mat-icon matIconList class="icon-control">link</mat-icon>
-      </a>
-  </ng-container>
+        <a *ngIf="lead.companyProfile && lead.companyProfile.trim() != ''" target="_blank" href="{{lead.companyProfile}}">
+          Company<br>Linkedin<br><mat-icon matIconList class="icon-control">link</mat-icon>
+        </a>
+    </ng-container>
 
-  <ng-container matColumnDef="companyWebsite">
-    <th mat-header-cell *matHeaderCellDef> Company Website </th>
-    <td mat-cell *matCellDef="let lead">
-      <a *ngIf="lead.companyWebsite && lead.companyWebsite.trim() != ''" target='_blank' href="{{lead.companyWebsite}}">
-        Company<br>Website<br><mat-icon matIconList class="icon-control">link</mat-icon>
-      </a>
-  </ng-container>
+    <ng-container matColumnDef="companyWebsite">
+      <th mat-header-cell *matHeaderCellDef> Company Website </th>
+      <td mat-cell *matCellDef="let lead">
+        <a *ngIf="lead.companyWebsite && lead.companyWebsite.trim() != ''" target='_blank' href="{{lead.companyWebsite}}">
+          Company<br>Website<br><mat-icon matIconList class="icon-control">link</mat-icon>
+        </a>
+    </ng-container>
 
-  <ng-container matColumnDef="personalWebsite">
-    <th mat-header-cell *matHeaderCellDef> Personal Website </th>
-    <td mat-cell *matCellDef="let lead">
-      <a *ngIf="lead.personalWebsite && lead.personalWebsite.trim() != ''" target="_blank" href="{{lead.personalWebsite}}">
-        Personal<br>Website<br><mat-icon matIconList class="icon-control">link</mat-icon>
-      </a>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="personalWebsite">
+      <th mat-header-cell *matHeaderCellDef> Personal Website </th>
+      <td mat-cell *matCellDef="let lead">
+        <a *ngIf="lead.personalWebsite && lead.personalWebsite.trim() != ''" target="_blank" href="{{lead.personalWebsite}}">
+          Personal<br>Website<br><mat-icon matIconList class="icon-control">link</mat-icon>
+        </a>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.email}} </td>
-  </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.email}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="phone">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.phone}} </td>
-  </ng-container>
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.phone}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="IM">
-    <th mat-header-cell *matHeaderCellDef> IM </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.IM}} </td>
-  </ng-container>
+    <ng-container matColumnDef="IM">
+      <th mat-header-cell *matHeaderCellDef> IM </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.IM}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="twitter">
-    <th mat-header-cell *matHeaderCellDef> Twitter </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.twitter}} </td>
-  </ng-container>
+    <ng-container matColumnDef="twitter">
+      <th mat-header-cell *matHeaderCellDef> Twitter </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.twitter}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="location">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.location}} </td>
-  </ng-container>
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.location}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="industry">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Industry </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.industry}} </td>
-  </ng-container>
+    <ng-container matColumnDef="industry">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Industry </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.industry}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="myTags">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> My Tags </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.myTags}} </td>
-  </ng-container>
+    <ng-container matColumnDef="myTags">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> My Tags </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.myTags}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="myNotes">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> My Notes </th>
-    <td mat-cell *matCellDef="let lead"> {{lead.myNotes}} </td>
-  </ng-container>
+    <ng-container matColumnDef="myNotes">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> My Notes </th>
+      <td mat-cell *matCellDef="let lead"> {{lead.myNotes}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="created_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
-    <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.created_at,'T')}} </td>
-  </ng-container>
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
+      <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.created_at,'T')}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="updated_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Updated At </th>
-    <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.updated_at, 'T')}} </td>
-  </ng-container>
+    <ng-container matColumnDef="updated_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Updated At </th>
+      <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.updated_at, 'T')}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="deleted_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Trashed At </th>
-    <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.updated_at, 'T')}} </td>
-  </ng-container>
+    <ng-container matColumnDef="deleted_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Trashed At </th>
+      <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.updated_at, 'T')}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="edit">
-    <th mat-header-cell *matHeaderCellDef> Edit </th>
-    <td mat-cell *matCellDef="let lead">
-      <mat-icon matListIcon
-                (click)="openDialog(lead)"
-                class="icon-control"
-      >border_color</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> Edit </th>
+      <td mat-cell *matCellDef="let lead">
+        <mat-icon matListIcon
+                  (click)="openDialog(lead)"
+                  class="icon-control"
+        >border_color</mat-icon>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="restore">
-    <th mat-header-cell *matHeaderCellDef> Restore </th>
-    <td mat-cell *matCellDef="let lead">
-      <mat-icon matListIcon
-                (click)="restoreLead(lead)"
-                class="icon-control"
-      >restore_from_trash</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="restore">
+      <th mat-header-cell *matHeaderCellDef> Restore </th>
+      <td mat-cell *matCellDef="let lead">
+        <mat-icon matListIcon
+                  (click)="restoreLead(lead)"
+                  class="icon-control"
+        >restore_from_trash</mat-icon>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef> Delete </th>
-    <td mat-cell *matCellDef="let lead">
-      <mat-icon matListIcon
-                (click)="deleteDialog(lead)"
-                class="icon-control"
-      >delete_outline</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let lead">
+        <mat-icon matListIcon
+                  (click)="deleteDialog(lead)"
+                  class="icon-control"
+        >delete_outline</mat-icon>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="shred">
-    <th mat-header-cell *matHeaderCellDef> Delete Permanently </th>
-    <td mat-cell *matCellDef="let lead">
-      <mat-icon matListIcon
-                (click)="shred(lead)"
-                class="icon-control"
-      >delete</mat-icon>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="shred">
+      <th mat-header-cell *matHeaderCellDef> Delete Permanently </th>
+      <td mat-cell *matCellDef="let lead">
+        <mat-icon matListIcon
+                  (click)="shred(lead)"
+                  class="icon-control"
+        >delete</mat-icon>
+      </td>
+    </ng-container>
 
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-  <tr mat-header-row *matHeaderRowDef="columns"></tr>
-  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    <!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+    <!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 
-</mat-table>
+  </mat-table>
+</div>

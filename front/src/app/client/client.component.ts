@@ -30,6 +30,7 @@ export class ClientComponent implements OnInit, OnDestroy {
   dialogSub: Subscription;
   clientId: number;
   isAdmin: boolean;
+  mainSpinner = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,10 +57,12 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   getClient(id: number = -1) {
+    this.mainSpinner = true;
     if (this.clientId && id === -1) {
       id = this.clientId;
     }
     this.clientService.getClient(id).subscribe(data => {
+      this.mainSpinner = false;
       this.client = data.data;
       console.log('this.client:', this.client);
       this.clientForm = this.createClientForm();

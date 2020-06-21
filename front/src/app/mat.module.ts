@@ -12,7 +12,8 @@ import {
   MatMenuModule,
   MatSidenavModule, MatSnackBarModule, MatSortModule,
   MatTableModule, MatTabsModule,
-  MatToolbarModule, MatSelectModule
+  MatToolbarModule, MatSelectModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 
@@ -24,7 +25,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatInputModule, MatDialogModule, MatSnackBarModule,
     MaterialFileInputModule, MatAutocompleteModule, MatExpansionModule,
     MatBadgeModule, MatTabsModule, MatCardModule, MatCheckboxModule,
-    MatSortModule
+    MatSortModule, MatProgressSpinnerModule
   ]
 })
 
