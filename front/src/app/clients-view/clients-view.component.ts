@@ -17,10 +17,10 @@ class Industry {
   }
   // $table->enum('status', ['NOTCONTACTED', 'NEUTRAL', 'POSITIVE', 'NEGATIVE'])
   count = {
-    NOTCONTACTED: 0,
-    NEUTRAL: 0,
-    POSITIVE: 0,
-    NEGATIVE: 0
+    CONTACTED: 0,
+    ACCEPTED: 0,
+    REJECTED: 0,
+    LEAD: 0
   };
 }
 
@@ -155,18 +155,18 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
     console.log('this.industries', this.industries);
     console.log('this.client', this.client);
     this.statusChartLabels = [
-        'Not Yet Contacted',
-        'In progress',
-        'Not Interested',
+        'Contacted',
+        'Accepted',
+        'Rejected',
         'Lead'
     ];
     // const notContacted = [];
     // const inProgress = [];
     // const notInterested = [];
     // const lead = [];
-    let notContacted = 0;
-    let inProgress = 0;
-    let notInterested = 0;
+    let contacted = 0;
+    let accepted = 0;
+    let rejected = 0;
     let lead = 0;
     // Not Yet Contacted NOTCONTACTED
     // In progress NEUTRAL
@@ -174,24 +174,24 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
     // Lead POSITIVE
     this.client.leads.forEach((l: Lead) => {
       switch (l.status) {
-        case 'NOTCONTACTED':
-          notContacted++;
+        case 'CONTACTED':
+          contacted++;
           break;
-        case 'NEUTRAL':
-          inProgress++;
+        case 'ACCEPTED':
+          accepted++;
           break;
-        case 'NEGATIVE':
-          notInterested++;
+        case 'REJECTED':
+          rejected++;
           break;
-        case 'POSITIVE':
+        case 'LEAD':
           lead++;
           break;
         default:
           break;
       }
     });
-    this.statusChartData = [notContacted, inProgress,
-      notInterested, lead];
+    this.statusChartData = [contacted, accepted,
+      rejected, lead];
   }
 
   ngOnDestroy(): void {

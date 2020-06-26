@@ -86,7 +86,7 @@ export class ClientLeadsComponent implements OnInit {
         if (lead === null) {
           if (this.isLead(result.data)) {
             if (!result.data.status) {
-              result.data.status = 'NOTCONTACTED';
+              result.data.status = 'CONTACTED';
             }
             this.leads[this.leads.length] = result.data;
             this.leadsDataSource.data = this.leads;

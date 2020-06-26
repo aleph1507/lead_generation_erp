@@ -86,4 +86,11 @@ export class LeadService {
   shredLead(lead: Lead): Observable<{data: Lead}> {
     return this.httpClient.post<{data: Lead}>(this.server.endpoints.leads + 'shred/', {id: lead.id});
   }
+
+  massStatusUpdate(leads: Lead[], newStatus): Observable<Lead[]> {
+    console.log('massStatus leads:', leads);
+    const leadsFormData = toFormData(leads);
+    leadsFormData.append('new_status', newStatus);
+    return this.httpClient.post<Lead[]>(this.server.endpoints.leads + 'mass-status-update/', leadsFormData);
+  }
 }

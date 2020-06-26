@@ -7,13 +7,45 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
 
-  <div *ngIf="!trashed" class="model-actions right-align">
+  <div *ngIf="!trashed" class="model-actions">
     <!--  <button class="mat-raised-button mat-primary">Prospects By Client</button>-->
-    <button class="mat-raised-button mat-primary" (click)="openCSVDialog()">Add Prospects CSV</button>
-    <button class="mat-raised-button mat-primary" (click)="openDialog()">New Prospect</button>
+<!--    <button mat-raised-button color="primary" (click)="selectionFn(selection)">selection</button>-->
+
+<!--    (+{{multiStatusChange.value.length - 1}} {{multiStatusChange.value?.length === 2 ? 'other' : 'others'}})-->
+
+<!--    {{multiStatusChange.value ? multiStatusChange.value[0] : ''}}-->
+<!--    <span *ngIf="multiStatusChange.value?.length > 1" class="additional-selection">-->
+<!--      </span>-->
+<!--    <mat-select-trigger>-->
+<!--    </mat-select-trigger>--> 
+    <mat-form-field class="fifth-width">
+      <mat-label>Set Status</mat-label>
+      <mat-select [formControl]="multiStatusChange" (selectionChange)="selectionFn($event.value)">
+        <mat-option *ngFor="let status of statusList" [value]="status">{{status}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button class="mat-raised-button mat-primary mid-height" (click)="openCSVDialog()">Add Prospects CSV</button>
+    <button class="mat-raised-button mat-primary mid-height" (click)="openDialog()">New Prospect</button>
   </div>
 
   <mat-table matSort [dataSource]="leadsDataSource" #table class="mat-elevation-z8 wide-mat-cell-table">
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
 
     <ng-container matColumnDef="duxid" style="width:15rem;">
       <th mat-header-cell class="wide-mat-cell" *matHeaderCellDef mat-sort-header> DUX ID </th>

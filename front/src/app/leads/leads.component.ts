@@ -11,6 +11,8 @@ import {DeleteLeadComponent} from '../dialogs/single-lead/delete-lead/delete-lea
 import {LeadsCsvComponent} from '../dialogs/leads-csv/leads-csv.component';
 import {LeadsByClientComponent} from '../dialogs/leads-by-client/leads-by-client.component';
 import {Client} from '../models/Client';
+import {SelectionModel} from '@angular/cdk/collections';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-leads',
@@ -21,16 +23,21 @@ export class LeadsComponent implements OnInit, OnDestroy {
   @Input() trashed = false;
 
   private leads: Lead[];
-  private leadsDataSource = new MatTableDataSource(this.leads);
+  private leadsDataSource = new MatTableDataSource<Lead>(this.leads);
   private dialogSub: Subscription = null;
   private CSVUploadSub: Subscription;
   private columns = [];
+  selection = new SelectionModel<Lead>(true, []);
   mainSpinner = true;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+  multiStatusChange = new FormControl();
+
+  statusList: string[] = ['Contacted', 'Accepted', 'Rejected', 'Lead'];
+
   // 'duxid', 'visitTime'
-  displayedColumns = ['edit', 'delete', 'firstName', 'lastName', 'client', 'profile',
+  displayedColumns = ['select', 'edit', 'delete', 'firstName', 'lastName', 'client', 'profile',
                     'status',  'degree',
                     'middleName', 'summary',
                     'title', 'from', 'company',
@@ -60,16 +67,45 @@ export class LeadsComponent implements OnInit, OnDestroy {
     this.getAll();
   }
 
+  selectionFn(value) {
+    // console.log('selection:', selection._selected)
+    console.log('value:', value);
+    console.log('selection:', this.selection.selected);
+    this.leadService.massStatusUpdate(this.selection.selected, value)
+        .subscribe(res => {
+          console.log('massUpdateResult:', res);
+        });
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.leadsDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.leadsDataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  checkboxLabel(row?: Lead): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;// row ${row.position + 1}`;
+  }
+
   leadStatusAccessor(status) {
     switch (status) {
-        case 'NOTCONTACTED':
-            return 'Not Yet Contacted';
-        case 'NEUTRAL':
-            return 'In progress';
-        case 'POSITIVE':
+        case 'CONTACTED':
+            return 'Contacted';
+        case 'ACCEPTED':
+            return 'Accepted';
+        case 'REJECTED':
+            return 'Rejected';
+        case 'LEAD':
             return 'Lead';
-        case 'NEGATIVE':
-            return 'Not Interested';
         default:
             return 'No status';
     }
@@ -154,7 +190,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
         if (lead === null) {
           if (this.isLead(result.data)) {
             if (!result.data.status) {
-              result.data.status = 'NOTCONTACTED';
+              result.data.status = 'CONTACTED';
             }
             this.leads[this.leads.length] = result.data;
             this.leadsDataSource.data = this.leads;

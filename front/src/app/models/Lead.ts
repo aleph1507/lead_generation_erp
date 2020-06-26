@@ -35,7 +35,7 @@ export class Lead implements Deserializable {
   attach?: any;
   detach?: any;
 
-  status: 'NOTCONTACTED' | 'NEUTRAL' | 'POSITIVE' | 'NEGATIVE';
+  status: 'CONTACTED' | 'ACCEPTED' | 'REJECTED' | 'LEAD';
   created_at: Date;
   updated_at: Date;
   deleted_at?: Date;

@@ -43,8 +43,8 @@ class CreateLeadsTable extends Migration
             $table->string('myNotes')->nullable();
 //            $table->unsignedBigInteger('client_id')->nullable();
 //            $table->string('name');
-            $table->enum('status', ['NOTCONTACTED', 'NEUTRAL', 'POSITIVE', 'NEGATIVE'])
-                ->default('NOTCONTACTED');
+            $table->enum('status', ['CONTACTED', 'ACCEPTED', 'REJECTED', 'LEAD'])
+                ->default('CONTACTED');
 
 //            $table->foreign('client_id')->references('id')->on('clients')
 //                ->onDelete('set null');

@@ -1,4 +1,19 @@
 .table-img {
   max-height: 10vh;
 }
+.additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.fifth-width {
+  width: 20%;
+}
+.model-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mid-height {
+  max-height: 5vh ;
+}
 /*# sourceMappingURL=leads.component.css.map */

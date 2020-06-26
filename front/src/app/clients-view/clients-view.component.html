@@ -39,10 +39,10 @@
                         </mat-expansion-panel-header>
 
                         <div class="industry-status">
-                            <p>Yet to be contacted: {{industries[ik].count['NOTCONTACTED']}}</p>
-                            <p>In progress: {{industries[ik].count['NEUTRAL']}}</p>
-                            <p>Not interested: {{industries[ik].count['NEGATIVE']}}</p>
-                            <p>Leads: {{industries[ik].count['POSITIVE']}}</p>
+                            <p>Contacted: {{industries[ik].count['CONTACTED']}}</p>
+                            <p>Accepted: {{industries[ik].count['ACCEPTED']}}</p>
+                            <p>Rejected: {{industries[ik].count['REJECTED']}}</p>
+                            <p>Leads: {{industries[ik].count['LEAD']}}</p>
                         </div>
                     </mat-expansion-panel>
                 </mat-accordion>

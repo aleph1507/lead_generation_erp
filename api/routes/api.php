@@ -120,6 +120,7 @@ Route::middleware(['auth:api'])->group(function() {
     Route::post('/leads', 'LeadController@store');
     Route::post('/leads/csv', 'LeadController@addCSVLeads');
     Route::post('/leads/update/{lead}', 'LeadController@update');
+    Route::post('/leads/mass-status-update', 'LeadController@massStatusUpdate');
     Route::delete('/leads/{lead}', 'LeadController@destroy');
 
     Route::get('/chats', 'ChatController@index');

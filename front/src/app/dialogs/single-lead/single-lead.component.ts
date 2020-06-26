@@ -28,10 +28,10 @@ export class SingleLeadComponent implements OnInit {
   client_id = new FormControl();
 
   leadStatusAssociative = {
-    NOTCONTACTED: 'Not Yet Contacted',
-    NEUTRAL: 'In progress',
-    POSITIVE: 'Lead',
-    NEGATIVE: 'Not Interested'
+    CONTACTED: 'Contacted',
+    ACCEPTED: 'Accepted',
+    REJECTED: 'Rejected',
+    LEAD: 'Lead'
   };
 
   // case 'NOTCONTACTED':

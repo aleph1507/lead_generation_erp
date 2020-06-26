@@ -266,6 +266,12 @@ class LeadController extends Controller
         return LeadResource::collection($leads);
     }
 
+    public function massStatusUpdate(Request $request)
+    {
+//        return response()->json($request->all());
+        return $request->all();
+    }
+
     /**
      * Update the specified resource in storage.
      *
