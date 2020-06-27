@@ -268,8 +268,38 @@ class LeadController extends Controller
 
     public function massStatusUpdate(Request $request)
     {
-//        return response()->json($request->all());
-        return $request->all();
+        $this->validate($request, [
+            'leadsRequested' => 'required',
+            'new_status' =>
+                'required|in:CONTACTED,ACCEPTED,REJECTED,LEAD,Contacted,Accepted,Rejected,Lead'
+        ]);
+//        $leadsRequested = json_decode($request->get('leads', null));
+        $leadsRequested =
+            explode(',',
+                str_replace(['"', '[', ']'], '',
+                    $request->get('leadsRequested', null)));
+        $new_status = $request->get('new_status', null);
+
+        $leads = null;
+
+//        $leads = Lead::find($leadsRequested);
+
+//        return json_encode(['leadsRequested' => $leadsRequested, 'new_status' => $new_status,
+//            'leads' => $leads]);
+
+        if ($leadsRequested && $new_status)
+        {
+            if ($leads = Lead::find($leadsRequested))
+            {
+                foreach ($leads as $lead)
+                {
+                    $lead->status = $new_status;
+                    $lead->save();
+                }
+            }
+        }
+
+        return $leads;
     }
 
     /**

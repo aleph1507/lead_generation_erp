@@ -88,9 +88,9 @@ export class LeadService {
   }
 
   massStatusUpdate(leads: Lead[], newStatus): Observable<Lead[]> {
-    console.log('massStatus leads:', leads);
-    const leadsFormData = toFormData(leads);
-    leadsFormData.append('new_status', newStatus);
-    return this.httpClient.post<Lead[]>(this.server.endpoints.leads + 'mass-status-update/', leadsFormData);
+    const fd = new FormData();
+    fd.append('leadsRequested', JSON.stringify(leads.map(lead => lead.id)));
+    fd.append('new_status', newStatus);
+    return this.httpClient.post<Lead[]>(this.server.endpoints.leads + 'mass-status-update/', fd);
   }
 }

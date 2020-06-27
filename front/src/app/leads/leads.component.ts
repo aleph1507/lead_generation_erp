@@ -9,10 +9,8 @@ import {SingleLeadComponent} from '../dialogs/single-lead/single-lead.component'
 import {SNACKBAR} from '../enums/snackbar.enum';
 import {DeleteLeadComponent} from '../dialogs/single-lead/delete-lead/delete-lead.component';
 import {LeadsCsvComponent} from '../dialogs/leads-csv/leads-csv.component';
-import {LeadsByClientComponent} from '../dialogs/leads-by-client/leads-by-client.component';
-import {Client} from '../models/Client';
 import {SelectionModel} from '@angular/cdk/collections';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-leads',
@@ -64,6 +62,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.columns = this.trashed ? this.displayedColumnsTrashed : this.displayedColumns;
+    // console.log('this.selection:', this.selection);
     this.getAll();
   }
 
@@ -71,9 +70,14 @@ export class LeadsComponent implements OnInit, OnDestroy {
     // console.log('selection:', selection._selected)
     console.log('value:', value);
     console.log('selection:', this.selection.selected);
+    const changedNumber = this.selection.selected.length;
+    this.mainSpinner = true;
     this.leadService.massStatusUpdate(this.selection.selected, value)
         .subscribe(res => {
           console.log('massUpdateResult:', res);
+          this.selection.clear();
+          this.mainSpinner = false;
+          this.snackbarService.openSnackbar('Statuses changed to ' + value + ' for ' + changedNumber + ' prospects.', SNACKBAR.SUCCESS);
         });
   }
 
