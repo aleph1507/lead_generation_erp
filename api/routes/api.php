@@ -92,6 +92,7 @@ Route::middleware(['auth:api', 'AdminMiddleware'])->group(function() {
     Route::post('/leads/shred', 'LeadController@shred');
     Route::get('/leads/trashed', 'LeadController@getTrashed');
     Route::get('/users', 'Auth\AuthController@get_users')->name('user.index');
+    Route::post('/leads/export', 'LeadController@export')->name('lead.export');
     Route::delete('/user/delete/{user}', 'Auth\AuthController@delete_user')->name('user.delete');
     Route::post('/user/shred', 'Auth\AuthController@shred_user')->name('user.shred');
     Route::post('/user/restore', 'Auth\AuthController@restore_user')->name('user.restore');

@@ -11,6 +11,7 @@ import {DeleteLeadComponent} from '../dialogs/single-lead/delete-lead/delete-lea
 import {LeadsCsvComponent} from '../dialogs/leads-csv/leads-csv.component';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormControl} from '@angular/forms';
+import {AreYouSureComponent} from '../dialogs/are-you-sure/are-you-sure.component';
 
 @Component({
   selector: 'app-leads',
@@ -19,6 +20,9 @@ import {FormControl} from '@angular/forms';
 })
 export class LeadsComponent implements OnInit, OnDestroy {
   @Input() trashed = false;
+  @Input() clientsView = false;
+  @Input() leadsInput = false;
+  @Input() leadsFeed: Lead[] = [];
 
   private leads: Lead[];
   private leadsDataSource = new MatTableDataSource<Lead>(this.leads);
@@ -30,7 +34,10 @@ export class LeadsComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  multiStatusChange = new FormControl();
+  // multiStatusChange = new FormControl();
+  multiStatusChange = new FormControl(
+      {value: null, disabled: this.selection.selected.length < 1}
+  );
 
   statusList: string[] = ['Contacted', 'Accepted', 'Rejected', 'Lead'];
 
@@ -53,6 +60,13 @@ export class LeadsComponent implements OnInit, OnDestroy {
     'twitter', 'location', 'industry',
     'myTags', 'myNotes', 'created_at', 'updated_at', 'deleted_at'];
 
+  displayedColumnsClientsView = [
+    'firstName', 'lastName', 'status', 'profile', 'degree', 'middleName', 'summary',
+    'title', 'from', 'company', 'companyProfile', 'companyWebsite', 'personalWebsite',
+    'email', 'phone', 'IM', 'twitter', 'location', 'industry',
+    'myTags', 'myNotes', 'created_at', 'updated_at'
+  ];
+
   constructor(
     private leadService: LeadService,
     private dialog: MatDialog,
@@ -61,24 +75,46 @@ export class LeadsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.columns = this.trashed ? this.displayedColumnsTrashed : this.displayedColumns;
+    this.columns = this.leadsInput ? this.displayedColumnsClientsView :
+      (this.trashed ? this.displayedColumnsTrashed : this.displayedColumns);
     // console.log('this.selection:', this.selection);
-    this.getAll();
+    if (this.leadsInput) {
+      this.displayLeads(this.leadsFeed);
+    } else {
+      this.getAll();
+    }
   }
 
-  selectionFn(value) {
-    // console.log('selection:', selection._selected)
-    console.log('value:', value);
-    console.log('selection:', this.selection.selected);
-    const changedNumber = this.selection.selected.length;
-    this.mainSpinner = true;
-    this.leadService.massStatusUpdate(this.selection.selected, value)
-        .subscribe(res => {
-          console.log('massUpdateResult:', res);
-          this.selection.clear();
-          this.mainSpinner = false;
-          this.snackbarService.openSnackbar('Statuses changed to ' + value + ' for ' + changedNumber + ' prospects.', SNACKBAR.SUCCESS);
-        });
+  selectionFn($event) {
+    const value = $event.value;
+
+    const dialogRef = this.dialog.open(AreYouSureComponent, {
+      data: {
+        // msg: string, affirmative: string, negative: string
+        msg: 'Change status to ' + value + ' for ' + this.selection.selected.length + ' prospects?',
+        affirmative: 'Yes',
+        negative: 'Cancel'
+      }
+    });
+
+    this.unsub();
+
+    this.dialogSub = dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        console.log('value:', value);
+        console.log('selection:', this.selection.selected);
+        const changedNumber = this.selection.selected.length;
+        this.mainSpinner = true;
+        this.leadService.massStatusUpdate(this.selection.selected, value)
+            .subscribe(updateRes => {
+              console.log('massUpdateResult:', updateRes);
+              this.selection.clear();
+              this.getAll();
+              this.mainSpinner = false;
+              this.snackbarService.openSnackbar('Statuses changed to ' + value + ' for ' + changedNumber + ' prospects.', SNACKBAR.SUCCESS);
+            });
+      }
+    });
   }
 
   isAllSelected() {
@@ -91,6 +127,12 @@ export class LeadsComponent implements OnInit, OnDestroy {
     this.isAllSelected() ?
         this.selection.clear() :
         this.leadsDataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  unsub() {
+    if (this.dialogSub) {
+      this.dialogSub.unsubscribe();
+    }
   }
 
   checkboxLabel(row?: Lead): string {
@@ -147,16 +189,8 @@ export class LeadsComponent implements OnInit, OnDestroy {
     const obsFn = this.trashed ? this.leadService.getTrashed() : this.leadService.getLeads();
     // this.leadService.getLeads().subscribe(result => {
     obsFn.subscribe(result => {
-      this.leads = result.data;
-      console.log('leads: ', this.leads);
-      this.leads.forEach(lead => {
-        lead.parsedClients = this.leadService.parseClient(lead);
-      });
+      this.displayLeads(result.data);
       catchError(this.handleError);
-      this.leadsDataSource.data = this.leads;
-      this.leadsDataSource.sort = this.sort;
-      this.mainSpinner = false;
-
       // this.leadsDataSource.filterPredicate = (data, filter: string)  => {
       //   const accumulator = (currentTerm, key) => {
       //     return key === 'client' ? currentTerm + data.orderInfo.type : currentTerm + data[key];
@@ -167,9 +201,19 @@ export class LeadsComponent implements OnInit, OnDestroy {
       //   return dataStr.indexOf(transformedFilter) !== -1;
       // };
 
-
-      this.changeDetectorRef.detectChanges();
     });
+  }
+
+  displayLeads(leads: Lead[]) {
+    this.leads = leads;
+    console.log('leads: ', this.leads);
+    this.leads.forEach(lead => {
+      lead.parsedClients = this.leadService.parseClient(lead);
+    });
+    this.leadsDataSource.data = this.leads;
+    this.leadsDataSource.sort = this.sort;
+    this.mainSpinner = false;
+    this.changeDetectorRef.detectChanges();
   }
 
   openDialog(lead: Lead = null) {

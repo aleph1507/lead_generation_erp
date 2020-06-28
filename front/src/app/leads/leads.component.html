@@ -7,7 +7,7 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
 
-  <div *ngIf="!trashed" class="model-actions">
+  <div *ngIf="!trashed && !clientsView" class="model-actions">
     <!--  <button class="mat-raised-button mat-primary">Prospects By Client</button>-->
 <!--    <button mat-raised-button color="primary" (click)="selectionFn(selection)">selection</button>-->
 
@@ -20,7 +20,11 @@
 <!--    </mat-select-trigger>--> 
     <mat-form-field class="fifth-width">
       <mat-label>Set Status</mat-label>
-      <mat-select [formControl]="multiStatusChange" (selectionChange)="selectionFn($event.value)">
+      <mat-select
+              [formControl]="multiStatusChange"
+              (selectionChange)="selectionFn($event)"
+              [disabled]="selection.selected.length < 1"
+      >
         <mat-option *ngFor="let status of statusList" [value]="status">{{status}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -203,7 +207,7 @@
 
     <ng-container matColumnDef="deleted_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Trashed At </th>
-      <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.updated_at, 'T')}} </td>
+      <td mat-cell *matCellDef="let lead"> {{splitReturnFirst(lead.deleted_at, 'T')}} </td>
     </ng-container>
 
     <ng-container matColumnDef="edit">

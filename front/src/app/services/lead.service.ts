@@ -71,6 +71,8 @@ export class LeadService {
       .post<{data: Lead[]}>(this.server.endpoints.leads + 'search/', queryFormData);
   }
 
+  // export(client: Client)
+
   getTrashed(): Observable<{data: Lead[]}> {
     return this.httpClient.get<{data: Lead[]}>(this.server.endpoints.leads + 'trashed');
   }

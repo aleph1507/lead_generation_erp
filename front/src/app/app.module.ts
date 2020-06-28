@@ -31,9 +31,10 @@ import { UsersComponent } from './users/users.component';
 import { UserComponent } from './dialogs/user/user.component';
 import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
 import { RegisterFormComponent } from './auth/register-form/register-form.component';
-import {MatSelectModule} from "@angular/material/select";
+import {MatSelectModule} from '@angular/material/select';
 import { ClientsViewComponent } from './clients-view/clients-view.component';
 import {ChartsModule} from 'ng2-charts';
+import { AreYouSureComponent } from './dialogs/are-you-sure/are-you-sure.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {ChartsModule} from 'ng2-charts';
     UserComponent,
     DeleteUserComponent,
     RegisterFormComponent,
-    ClientsViewComponent
+    ClientsViewComponent,
+    AreYouSureComponent
   ],
     imports: [
         BrowserModule,
@@ -85,6 +87,6 @@ import {ChartsModule} from 'ng2-charts';
                     SingleLeadComponent, DeleteLeadComponent,
                     LeadsCsvComponent, ClientLeadsComponent, LeadsByClientComponent,
                     ApprovalRequestsComponent, ChangePasswordComponent, UserComponent,
-                    DeleteUserComponent]
+                    DeleteUserComponent, AreYouSureComponent]
 })
 export class AppModule { }

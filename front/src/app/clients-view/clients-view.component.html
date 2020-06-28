@@ -46,6 +46,11 @@
                         </div>
                     </mat-expansion-panel>
                 </mat-accordion>
+
+            <div class="leads-component">
+                <app-leads [leadsInput]="true" [leadsFeed]="client.leads"
+                           [clientsView]="true"></app-leads>
+            </div>
 <!--                <li *ngFor="let ik of industryKeys">-->
 <!--                    <p>{{ industries[ik].name }} yields {{industries[ik].total}}</p>-->
 <!--                    <div class="industry-status">-->

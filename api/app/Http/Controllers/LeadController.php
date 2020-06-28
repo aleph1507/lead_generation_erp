@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LeadsExport;
 use App\Lead;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use App\Http\Resources\LeadResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LeadController extends Controller
 {
@@ -324,6 +326,11 @@ class LeadController extends Controller
                 'detach' => $request->get('detach') ? json_decode($request->get('detach')) : null
             ]
         ));
+    }
+
+    public function export()
+    {
+        return Excel::download(new LeadsExport, 'leads.xlsx');
     }
 
     public function getTrashed()

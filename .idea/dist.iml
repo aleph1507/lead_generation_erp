@@ -118,6 +118,12 @@
       <excludeFolder url="file://$MODULE_DIR$/../api/vendor/tijsverkoyen/css-to-inline-styles" />
       <excludeFolder url="file://$MODULE_DIR$/../api/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/../api/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/maatwebsite/excel" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/maennchen/zipstream-php" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/markbaker/complex" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/markbaker/matrix" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/myclabs/php-enum" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/phpoffice/phpspreadsheet" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
