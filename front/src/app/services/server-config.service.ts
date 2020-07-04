@@ -20,7 +20,8 @@ export class ServerConfigService {
     user: this.serverUrl + 'api/user/',
     user_delete: this.serverUrl + 'api/user/delete/',
     user_shred: this.serverUrl + 'api/user/shred/',
-    user_restore: this.serverUrl + 'api/user/restore/'
+    user_restore: this.serverUrl + 'api/user/restore/',
+    leadsCSVexport: this.serverUrl + 'api/leads/export'
   };
 
   public allowed401s = [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\Exports\LeadsExport;
 use App\Lead;
 use Illuminate\Database\Eloquent\Builder;
@@ -328,9 +329,36 @@ class LeadController extends Controller
         ));
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new LeadsExport, 'leads.xlsx');
+//        $this->validate($request, [
+//            'client_id' => 'sometimes|in:clients,id',
+//            'status' => 'sometimes|in:CONTACTED,ACCEPTED,REJECTED,LEAD'
+//        ]);
+
+        $cid = $request->get('client_id', null);
+        $status = $request->get('status', null);
+
+        $leads = null;
+        $c = null;
+
+        if (isset($cid))
+        {
+            if (!$c = Client::find($cid))
+            {
+                return response('Unprocessable entity $cid:' . $cid, 422);
+            }
+
+            $leads = $c->leads()->status($status)->get();
+        }
+        else {
+            $leads = Client::all()->map(function ($client, $key) use ($status) {
+                return $client->leads()->status($status)->get();
+            });
+        }
+
+        return $leads->toJson();
+//        return json_encode($leads);
     }
 
     public function getTrashed()

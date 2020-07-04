@@ -71,7 +71,57 @@ export class LeadService {
       .post<{data: Lead[]}>(this.server.endpoints.leads + 'search/', queryFormData);
   }
 
-  // export(client: Client)
+  export(options: {client_id?: number, status?: string} | null = null): Observable<any> {
+    const exportFD = new FormData();
+    if (options) {
+      if (options.client_id) {
+        exportFD.append('client_id', options.client_id.toString());
+      }
+      if (options.status) {
+        exportFD.append('status', options.status);
+      }
+
+    }
+
+    return this.httpClient.post(this.server.endpoints.leadsCSVexport, exportFD);
+  }
+
+  downloadFile(data: any) {
+    // data = data.filter(el => el.length > 0);
+
+    // data = data[0];
+    const arrJson = [];
+    data.forEach(el => {
+      if (el.length > 0) {
+        el.forEach(row => {
+          arrJson.push(row);
+        });
+      }
+    });
+
+    data = arrJson;
+    console.log('data:', data);
+
+    const replacer = (key, value) => (value === null ? '' : value);
+    const header = Object.keys(data[0]);
+    const csv = data.map((row) =>
+        header
+            .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+            .join(',')
+    );
+    csv.unshift(header.join(','));
+    const csvArray = csv.join('\r\n');
+
+    const a = document.createElement('a');
+    const blob = new Blob([csvArray], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    a.href = url;
+    a.download = 'prospects.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
 
   getTrashed(): Observable<{data: Lead[]}> {
     return this.httpClient.get<{data: Lead[]}>(this.server.endpoints.leads + 'trashed');

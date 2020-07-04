@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {ClientService} from '../services/client.service';
 import {Client} from '../models/Client';
 import {Router} from '@angular/router';
+import {LeadService} from '../services/lead.service';
 
 enum OPTIONS {
   PROSPECTSLIVE = 1 ,
@@ -30,7 +31,8 @@ export class AdminComponent implements OnInit {
   trashedClients = false;
 
   constructor(
-      private router: Router
+      private router: Router,
+      private leadService: LeadService
   ) { }
 
   ngOnInit() {
@@ -70,6 +72,16 @@ export class AdminComponent implements OnInit {
 
   nullOption() {
     this.option = null;
+  }
+
+  exportProspects() {
+    this.leadService.export({status: 'ACCEPTED'}).subscribe(res => {
+      console.log('export res: ', res);
+      this.leadService.downloadFile(res);
+    });
+    // this.leadService.export({client_id: 1, status: 'ACCEPTED'}).subscribe(res => {
+    //   console.log('export res: ', res);
+    // });
   }
 
 }
