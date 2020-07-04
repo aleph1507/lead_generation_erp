@@ -1,11 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {debounceTime, finalize, switchMap, tap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ClientService} from '../services/client.service';
 import {Client} from '../models/Client';
 import {Router} from '@angular/router';
 import {LeadService} from '../services/lead.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ExportLeadsComponent} from '../dialogs/export-leads/export-leads.component';
 
 enum OPTIONS {
   PROSPECTSLIVE = 1 ,
@@ -29,10 +31,12 @@ export class AdminComponent implements OnInit {
 
   trashedProspects = false;
   trashedClients = false;
+  dialogSub: Subscription;
 
   constructor(
       private router: Router,
-      private leadService: LeadService
+      private leadService: LeadService,
+      private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -72,6 +76,18 @@ export class AdminComponent implements OnInit {
 
   nullOption() {
     this.option = null;
+  }
+
+  openLeadsExportDialog() {
+    const dialogRef = this.dialog.open(ExportLeadsComponent, {
+      data: {
+
+      }
+    });
+
+    this.dialogSub = dialogRef.afterClosed().subscribe(res => {
+      console.log('export leads res:', res);
+    });
   }
 
   exportProspects() {

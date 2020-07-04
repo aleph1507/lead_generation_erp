@@ -35,6 +35,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { ClientsViewComponent } from './clients-view/clients-view.component';
 import {ChartsModule} from 'ng2-charts';
 import { AreYouSureComponent } from './dialogs/are-you-sure/are-you-sure.component';
+import { ExportLeadsComponent } from './dialogs/export-leads/export-leads.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { AreYouSureComponent } from './dialogs/are-you-sure/are-you-sure.compone
     DeleteUserComponent,
     RegisterFormComponent,
     ClientsViewComponent,
-    AreYouSureComponent
+    AreYouSureComponent,
+    ExportLeadsComponent
   ],
     imports: [
         BrowserModule,
@@ -87,6 +89,6 @@ import { AreYouSureComponent } from './dialogs/are-you-sure/are-you-sure.compone
                     SingleLeadComponent, DeleteLeadComponent,
                     LeadsCsvComponent, ClientLeadsComponent, LeadsByClientComponent,
                     ApprovalRequestsComponent, ChangePasswordComponent, UserComponent,
-                    DeleteUserComponent, AreYouSureComponent]
+                    DeleteUserComponent, AreYouSureComponent, ExportLeadsComponent]
 })
 export class AppModule { }
