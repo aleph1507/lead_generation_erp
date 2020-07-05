@@ -337,7 +337,9 @@ class LeadController extends Controller
 //        ]);
 
         $cid = $request->get('client_id', null);
-        $status = $request->get('status', null);
+        $status = isset($request->status) ?
+            (array)json_decode($request->get('status')) : null;
+//        $status = $request->get('status', null);
 
         $leads = null;
         $c = null;
@@ -352,9 +354,10 @@ class LeadController extends Controller
             $leads = $c->leads()->status($status)->get();
         }
         else {
-            $leads = Client::all()->map(function ($client, $key) use ($status) {
-                return $client->leads()->status($status)->get();
-            });
+            $leads = Lead::status($status)->get();
+//            $leads = Client::all()->map(function ($client, $key) use ($status) {
+//                return $client->leads()->status($status)->get();
+//            });
         }
 
         return $leads->toJson();

@@ -10,7 +10,7 @@ import {ServerConfigService} from './services/server-config.service';
 import { ClientsComponent } from './clients/clients.component';
 import {MatModule} from './mat.module';
 import { SingleClientComponent } from './dialogs/single-client/single-client.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DeleteClientComponent } from './dialogs/single-client/delete-client/delete-client.component';
 import { LeadsComponent } from './leads/leads.component';
 import { SingleLeadComponent } from './dialogs/single-lead/single-lead.component';
@@ -74,7 +74,8 @@ import { ExportLeadsComponent } from './dialogs/export-leads/export-leads.compon
         ReactiveFormsModule,
         MatModule,
         MatSelectModule,
-        ChartsModule
+        ChartsModule,
+        FormsModule
     ],
   providers: [
     ServerConfigService,

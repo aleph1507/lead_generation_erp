@@ -78,7 +78,7 @@ export class LeadService {
         exportFD.append('client_id', options.client_id.toString());
       }
       if (options.status) {
-        exportFD.append('status', options.status);
+        exportFD.append('status', JSON.stringify(options.status));
       }
 
     }

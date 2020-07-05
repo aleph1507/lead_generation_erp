@@ -1,8 +1,30 @@
-<h1>Specify export:</h1>
+<h2>Specify export:</h2>
 
 <div>
-    <mat-checkbox class="status-exports">Contact</mat-checkbox>
-    <mat-checkbox class="status-exports">Accepted</mat-checkbox>
-    <mat-checkbox class="status-exports">Rejected</mat-checkbox>
-    <mat-checkbox class="status-exports">Lead</mat-checkbox>
+    <mat-checkbox class="status-exports"
+                  [(ngModel)]="selectedStatuses.contacted">
+        Contacted
+    </mat-checkbox>
+    <mat-checkbox class="status-exports"
+                  [(ngModel)]="selectedStatuses.accepted">
+        Accepted
+    </mat-checkbox>
+    <mat-checkbox class="status-exports"
+                  [(ngModel)]="selectedStatuses.rejected">
+        Rejected
+    </mat-checkbox>
+    <mat-checkbox class="status-exports"
+                  [(ngModel)]="selectedStatuses.lead">
+        Lead
+    </mat-checkbox>
+
+    <div class="mt-5">
+        <button mat-raised-button color="primary"
+                (click)="export()"
+                [disabled]="!(selectedStatuses.contacted ||
+                selectedStatuses.accepted ||
+                selectedStatuses.rejected ||
+                selectedStatuses.lead)">Export</button>
+        <button mat-raised-button (click)="close()">Cancel</button>
+    </div>
 </div>

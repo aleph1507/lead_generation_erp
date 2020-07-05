@@ -48,18 +48,32 @@ class Lead extends Model
         return $this->hasMany('\App\Chat');
     }
 
-    public function scopeStatus($query, $status = null)
+    public function scopeStatus($query, Array $status = null)
     {
         if (!isset($status))
         {
             return $query;
         }
 
-        if (!in_array($status, ['CONTACTED', 'ACCEPTED', 'REJECTED', 'LEAD']))
-        {
-            return response('Unprocessable entity', 422);
-        }
+//        if (!in_array($status, ['CONTACTED', 'ACCEPTED', 'REJECTED', 'LEAD',
+//            'Contacted', 'Accepted', 'Rejected', 'Lead',
+//            'contacted', 'accepted', 'rejected', 'lead']))
+//        {
+//            return response('Unprocessable entity', 422);
+//        }
 
-        return $query->where('status', $status);
+        $status = array_filter($status, function($s) {
+            return $s == true;
+        });
+
+//        foreach (['contacted', 'accepted', 'rejected', 'lead'] as $s)
+//        {
+//            if (!$status{$s})
+//            {
+//                unset($status{$s});
+//            }
+//        }
+
+        return $query->whereIn('status', $status);
     }
 }

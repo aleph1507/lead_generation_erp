@@ -86,7 +86,12 @@ export class AdminComponent implements OnInit {
     });
 
     this.dialogSub = dialogRef.afterClosed().subscribe(res => {
-      console.log('export leads res:', res);
+      console.log('res:', res);
+      if (res) {
+        this.leadService.export({status: res}).subscribe(exportData => {
+          console.log(exportData);
+        });
+      }
     });
   }
 
