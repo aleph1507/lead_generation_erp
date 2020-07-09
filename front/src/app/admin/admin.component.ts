@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {LeadService} from '../services/lead.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ExportLeadsComponent} from '../dialogs/export-leads/export-leads.component';
+import {CsvDataService} from "../services/csv-data.service";
 
 enum OPTIONS {
   PROSPECTSLIVE = 1 ,
@@ -36,7 +37,8 @@ export class AdminComponent implements OnInit {
   constructor(
       private router: Router,
       private leadService: LeadService,
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private csvDataService: CsvDataService
   ) { }
 
   ngOnInit() {
@@ -90,6 +92,9 @@ export class AdminComponent implements OnInit {
       if (res) {
         this.leadService.export({status: res}).subscribe(exportData => {
           console.log(exportData);
+          CsvDataService.exportToCsv('prospects.csv', exportData);
+          // this.csvDataService.exportToCsv(exportData);
+          // this.leadService.downloadFile(exportData);
         });
       }
     });

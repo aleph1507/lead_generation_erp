@@ -55,25 +55,10 @@ class Lead extends Model
             return $query;
         }
 
-//        if (!in_array($status, ['CONTACTED', 'ACCEPTED', 'REJECTED', 'LEAD',
-//            'Contacted', 'Accepted', 'Rejected', 'Lead',
-//            'contacted', 'accepted', 'rejected', 'lead']))
-//        {
-//            return response('Unprocessable entity', 422);
-//        }
-
         $status = array_filter($status, function($s) {
             return $s == true;
         });
 
-//        foreach (['contacted', 'accepted', 'rejected', 'lead'] as $s)
-//        {
-//            if (!$status{$s})
-//            {
-//                unset($status{$s});
-//            }
-//        }
-
-        return $query->whereIn('status', $status);
+        return $query->whereIn('status', array_keys($status));
     }
 }
